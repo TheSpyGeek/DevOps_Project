@@ -1,10 +1,14 @@
+package test.java;
+
 import org.junit.Test;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
-public class AppTest{
+public class AppTest {
+
     @Test
-    public void test(){
+    public void test1(){
         assertTrue(true);
     }
+
 }
