@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Collections;
 
 /**
  * DataCol représente les colonnes de notre DataFrame.
@@ -6,44 +7,14 @@ import java.util.ArrayList;
 public class DataCol
 {
     //Contient les données de toute une colonne
-    private ArrayList<Comparable> data;
+    private ArrayList<? extends Comparable> data;
 
     //Contient le label de notre colonne
     private String label;
 
-    public DataCol(String label, ArrayList<Comparable> data){
+    public DataCol(String label, ArrayList<? extends Comparable> data){
         this.label = label;
         this.data  = data;
-    }
-
-
-    /**
-     * Méthode permettant d'insérer une nouvelle donnée dans notre dataframe.
-     * Cette méthode va aussi vérifier que la donnée insérer correspond bien au même type que le type de la colonne.
-     * Ici, on part du principe que dataToInsert doit avoir le même type que le premier élément de data.
-     * @param dataToInsert donnée à insérer.
-     */
-    public void insert(String dataToInsert){
-        Comparable realType;
-        try{
-            realType = Integer.parseInt(dataToInsert);
-        }catch (Exception eTestInt){
-            try{
-                realType = Double.parseDouble(dataToInsert);
-            }catch (Exception eTestDouble){ //On part du principe que c'est donc une String
-                realType = dataToInsert;
-            }
-        }
-        //La donnée à insérer est bien du même type que le reste de la colonne, on insert.
-        if(data.size()>0){
-            if(realType.getClass()==data.get(0).getClass()){
-                data.add(realType);
-            }else{
-                System.out.println("Erreur, la colonne n'a pas de type homogène.");
-            }
-        }else{//On insert dans la colonne si ne c'est le premier élément de la colonne.
-            data.add(realType);
-        }
     }
 
     /**
@@ -70,5 +41,67 @@ public class DataCol
      */
     public String getLabel(){
         return this.label;
+    }
+
+    /**
+     *
+     * @return une nouvelle colonne avec les lignes demandées.
+     */
+    public DataCol selectByLine(int begin, int end){
+        ArrayList<Comparable> newCol = new ArrayList<Comparable>();
+        for(int i = begin; i < end; i++){
+            newCol.add(data.get(i));
+        }
+        return new DataCol(this.label,newCol);
+    }
+
+    /**
+     *
+     * @return L'élément maximum du tableau.
+     */
+    public Comparable getMax(){
+        return Collections.max(data);
+    }
+
+    /**
+     *
+     * @return L'élément minimum de la colonne.
+     */
+    public Comparable getMin(){
+        return Collections.max(data);
+    }
+
+    /**
+     * La colonne doit-être de type Numérique!
+     * @return La somme des éléments de la colonne.
+     */
+    public Double getSum(){
+        Double d = 0.0;
+        if(data.get(0) instanceof Double){
+            for(Comparable c: data){
+                d+=(Double)c;
+            }
+        }else{
+            System.out.println("Type invalide pour cette opération");
+            return null;
+        }
+        return d;
+    }
+
+    /**
+     * La colonne doit-être de type Numérique!
+     * @return La moyenne des éléments de la colonne.
+     */
+    public Double getAvg(){
+        Double d = 0.0;
+        if(data.get(0) instanceof Double){
+            for(int i = 0; i<data.size(); i++){
+                d+=(Double)data.get(i);
+            }
+        }else{
+            System.out.println("Type invalide pour cette opération");
+            return null;
+        }
+        return d/data.size();
     }
 }
