@@ -1,15 +1,12 @@
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
-import java.lang.reflect.Array;
+import java.io.*;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 
 public class DataFrame {
 
     //Une dataframe est un ensemble de DataCol.
-    HashMap<String,DataCol> setOfCol;
+    LinkedHashMap<String, DataCol> setOfCol;
 
     /**
      * Construction d'un objet Dataframe à partir d'un ensemble de colonnes.
@@ -17,16 +14,18 @@ public class DataFrame {
      * @param labels liste des labels respectifs des cols.
      */
     public DataFrame(ArrayList<String> labels, ArrayList<ArrayList<? extends Comparable>> cols){
-        setOfCol = new HashMap<String, DataCol>();
+        setOfCol = new LinkedHashMap<String, DataCol>();
         if(labels.size()!=cols.size())
             System.out.println("Warning, plus de labels que de colonnes.");
 
-        int size = cols.get(0).size();
+        int s = cols.get(0).size();
         for(int i = 1; i < cols.size(); i++){
-            if(size!=cols.get(i).size()){
-                System.out.println("ERROR, Votre dataframe ne peut contenir dans champs vide pour une ligne.");
+            if(s!=cols.get(i).size()){
+                System.out.println("ERROR: Une colonne a plus d'élément qu'une autre!");
+                System.exit(1);
             }
         }
+
         for(int i=0; i<cols.size(); i++){
             DataCol dc = new DataCol(labels.get(i), cols.get(i));
             setOfCol.put(labels.get(i),dc);
@@ -38,6 +37,8 @@ public class DataFrame {
      * @param csvPath Chemin du fichier csv à parser.
      */
     public DataFrame(String csvPath){
+        setOfCol = new LinkedHashMap<String, DataCol>();
+
         String line = "";
         String separator = ",";
         boolean firstPass = true;
@@ -51,15 +52,16 @@ public class DataFrame {
                 String[] lineContent = line.split(separator);
 
                 for (int i=0; i<lineContent.length; i++){
+
                     //On part du principe que le premier élément de la colonne contient le label
                     if(firstPass){
+                        System.out.println(lineContent[i]);
                         labels.add(lineContent[i]);
                         datas.add(new ArrayList<String>());
                         types.add(0);
-                        firstPass = false;
                     }else{//Puis on insert dans les bonnes colonnes.
                         if(lineContent[i].equals("")){//Si la case est vide on met 0 à la place
-                            datas.get(i).add("0");
+                            datas.get(i).set(i,"0");
                         }else{//On détermine les types et on remplit les données sous forme de string pour l'instant pour chaque colonne
                             datas.get(i).add(lineContent[i]);
 
@@ -75,6 +77,7 @@ public class DataFrame {
                         }
                     }
                 }
+                firstPass = false;
             }
 
             ArrayList<Comparable>  tempD;
@@ -93,7 +96,6 @@ public class DataFrame {
                         tempD.add(parseInteger(s));
                     }
                 }
-
                 if(types.get(i)==3){//Si on est sorti, on envoie les données String
                     setOfCol.put(labels.get(i),new DataCol(labels.get(i),datas.get(i)));
                 }else{//Sinon, on envoie les données parsées
@@ -117,11 +119,11 @@ public class DataFrame {
      * Troisième constructeur à partir d'une hashMap
      * @param setOfCol HashMap correspondant au DataFrame.
      */
-    public DataFrame(HashMap<String, DataCol> setOfCol){
+    public DataFrame(LinkedHashMap<String, DataCol> setOfCol){
         this.setOfCol = setOfCol;
     }
 
-    public Double parseDouble(String s){
+    private Double parseDouble(String s){
         try {
             return  Double.parseDouble(s);
         }catch (Exception e){
@@ -129,7 +131,7 @@ public class DataFrame {
         }
     }
 
-    public Integer parseInteger(String s){
+    private Integer parseInteger(String s){
         try {
             return  Integer.parseInt(s);
         }catch (Exception e){
@@ -140,17 +142,23 @@ public class DataFrame {
     /**
      * Fonction permettant d'afficher l'entiereté du DataFrame
      * @param begin Indique à partir de quelle ligne afficher.
-     * @param end   Indique quand arrêter l'affichage. Si end = 0, alors tout afficher.
+     * @param end   Indique quand arrêter l'affichage. Si end = -1, alors tout afficher.
      */
     public void print(int begin, int end){
+        System.out.print("\t");
         Iterator i = setOfCol.keySet().iterator();
         while (i.hasNext()){
-            System.out.print(i.next()+"\t");
+            System.out.print(setOfCol.get(i.next()).getLabel()+"\t");
         }
         System.out.println();
+        if(end==-1){
+            begin = 0;
+            end = setOfCol.get(setOfCol.keySet().iterator().next()).getSize()-1;
+        }
+
 
         if(end>=begin){
-            while(begin<end){
+            while(begin<=end){
                 System.out.print(begin+"\t");
                 i = setOfCol.keySet().iterator();
                 while (i.hasNext()){
@@ -164,6 +172,10 @@ public class DataFrame {
         }
     }
 
+    public void printAll(){
+        print(0,  (setOfCol.get(setOfCol.keySet().iterator().next()).getSize()-1));
+    }
+
     /**
      * Renvoie un sous-ensemble de notre DataFrame en sélectionnant les données par ligne.
      * @param begin Borne inférieure
@@ -171,7 +183,7 @@ public class DataFrame {
      * @return Le sous-ensemble du DataFrame sélectionné via les lignes
      */
     public DataFrame selectFromLine(int begin, int end){
-        HashMap<String, DataCol> newSetOfCol = new HashMap<String, DataCol>();
+        LinkedHashMap<String, DataCol> newSetOfCol = new LinkedHashMap<String, DataCol>();
         if(begin>end){
             System.out.println("Erreur, borne inférieure est supérieure à la borne supérieure.");
         }else if (setOfCol.get(0).getSize()<end){
@@ -191,18 +203,58 @@ public class DataFrame {
      * @param labels Nom des colonnes que l'on doit sélectionner
      * @return Le sous-ensemble du DataFrame sélectionné via les labels
      */
-    public DataFrame selectFromLabel(ArrayList<String> labels){
-        HashMap<String, DataCol> newSetOfCol = new HashMap<String, DataCol>();
+    public DataFrame selectFromLabel(ArrayList<String> labels) throws ExceptionNoSuchColumn{
+        LinkedHashMap<String, DataCol> newSetOfCol = new LinkedHashMap<String, DataCol>();
 
         for(String s: labels){
             if(setOfCol.containsKey(s)){
                 newSetOfCol.put(s,setOfCol.get(s));
             }else{
-                System.out.println("ERROR: Cette colonne n'existe pas.");
+                throw new ExceptionNoSuchColumn();
             }
         }
 
         return new DataFrame(newSetOfCol);
+    }
+
+    public Comparable getMax(String label) throws ExceptionNoSuchColumn{
+        if(setOfCol.containsKey(label)){
+            return setOfCol.get(label).getMax();
+        }else{
+            throw new ExceptionNoSuchColumn();
+        }
+    }
+
+    public Comparable getMin(String label) throws ExceptionNoSuchColumn{
+        if(setOfCol.containsKey(label)){
+            return setOfCol.get(label).getMin();
+        }else{
+            throw new ExceptionNoSuchColumn();
+        }
+    }
+
+    public Comparable getSum(String label) throws ExceptionString, ExceptionNoSuchColumn {
+        if(setOfCol.containsKey(label)){
+            return setOfCol.get(label).getSum();
+        }else{
+            throw new ExceptionNoSuchColumn();
+        }
+    }
+
+    public Comparable getAvg(String label) throws ExceptionString, ExceptionNoSuchColumn {
+        if(setOfCol.containsKey(label)){
+            return setOfCol.get(label).getAvg();
+        }else{
+            throw new ExceptionNoSuchColumn();
+        }
+    }
+
+    public int getCount(String label) throws ExceptionNoSuchColumn{
+        if(setOfCol.containsKey(label)){
+            return setOfCol.get(label).getSize();
+        }else{
+            throw new ExceptionNoSuchColumn();
+        }
     }
 
 }

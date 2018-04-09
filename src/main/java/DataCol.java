@@ -22,11 +22,7 @@ public class DataCol
      * @param i index de l'élément à afficher.
      */
     public void print(int i){
-        if(i>data.size()){
-            System.out.print("NULL\t");
-        }else{
-            System.out.println(data.get(i).toString()+"\t");
-        }
+        System.out.print(data.get(i).toString()+"\t");
     }
 
     /**
@@ -68,40 +64,39 @@ public class DataCol
      * @return L'élément minimum de la colonne.
      */
     public Comparable getMin(){
-        return Collections.max(data);
+        return Collections.min(data);
     }
 
     /**
      * La colonne doit-être de type Numérique!
      * @return La somme des éléments de la colonne.
      */
-    public Double getSum(){
-        Double d = 0.0;
+    public Comparable getSum() throws ExceptionString{
         if(data.get(0) instanceof Double){
+            Double sum = 0.0;
             for(Comparable c: data){
-                d+=(Double)c;
+                sum+=(Double)c;
             }
+            return sum;
+        }else if( data.get(0) instanceof Integer){
+            Integer sum = 0;
+            for(Comparable c: data){
+                sum+=(Integer)c;
+            }
+            return sum;
         }else{
-            System.out.println("Type invalide pour cette opération");
-            return null;
+            throw new ExceptionString();
         }
-        return d;
     }
 
     /**
      * La colonne doit-être de type Numérique!
      * @return La moyenne des éléments de la colonne.
      */
-    public Double getAvg(){
-        Double d = 0.0;
-        if(data.get(0) instanceof Double){
-            for(int i = 0; i<data.size(); i++){
-                d+=(Double)data.get(i);
-            }
-        }else{
-            System.out.println("Type invalide pour cette opération");
-            return null;
-        }
-        return d/data.size();
+    public Comparable getAvg() throws ExceptionString {
+        if(data.get(0) instanceof Double)
+            return (Double)((Double)getSum()/data.size());
+        else
+            return (Integer)getSum()/data.size();
     }
 }
