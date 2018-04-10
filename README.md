@@ -1,4 +1,4 @@
-# Projet DevOps [![codecov](https://codecov.io/gh/TheSpyGeek/DevOps_Project/branch/master/graph/badge.svg?token=gK8JynLGcl)](https://codecov.io/gh/TheSpyGeek/DevOps_Project) https://travis-ci.com/TheSpyGeek/DevOps_Project.svg?token=AmtD253suzrd44ZDSspK&branch=master 
+# Projet DevOps [![codecov](https://codecov.io/gh/TheSpyGeek/DevOps_Project/branch/master/graph/badge.svg?token=gK8JynLGcl)](https://codecov.io/gh/TheSpyGeek/DevOps_Project) [![Build Status](https://travis-ci.com/TheSpyGeek/DevOps_Project.svg?token=AmtD253suzrd44ZDSspK&branch=master)](https://travis-ci.com/TheSpyGeek/DevOps_Project)
 
 
 
