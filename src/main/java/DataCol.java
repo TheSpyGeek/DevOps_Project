@@ -43,9 +43,14 @@ public class DataCol
      *
      * @return une nouvelle colonne avec les lignes demandées.
      */
-    public DataCol selectByLine(int begin, int end){
+    public DataCol selectByLine(int begin, int end) throws ExceptionColBadIndex{
+
+        if(begin < 0 || end < 0 || end < begin || end >= getSize()){
+            throw new ExceptionColBadIndex();
+        }
+
         ArrayList<Comparable> newCol = new ArrayList<Comparable>();
-        for(int i = begin; i < end; i++){
+        for(int i = begin; i <= end; i++){
             newCol.add(data.get(i));
         }
         return new DataCol(this.label,newCol);
@@ -71,7 +76,7 @@ public class DataCol
      * La colonne doit-être de type Numérique!
      * @return La somme des éléments de la colonne.
      */
-    public Comparable getSum() throws ExceptionString{
+    public Comparable getSum() throws ExceptionString {
         if(data.get(0) instanceof Double){
             Double sum = 0.0;
             for(Comparable c: data){
@@ -84,7 +89,7 @@ public class DataCol
                 sum+=(Integer)c;
             }
             return sum;
-        }else{
+        } else {
             throw new ExceptionString();
         }
     }
@@ -96,7 +101,9 @@ public class DataCol
     public Comparable getAvg() throws ExceptionString {
         if(data.get(0) instanceof Double)
             return (Double)((Double)getSum()/data.size());
-        else
+        else if(data.get(0) instanceof Integer)
             return (Integer)getSum()/data.size();
+        else
+            throw new ExceptionString();
     }
 }

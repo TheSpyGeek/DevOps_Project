@@ -1,123 +1,165 @@
-import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 
-import static org.junit.Assert.*;
 import java.util.ArrayList;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class DataColTest {
 
-    ArrayList<ArrayList<? extends Comparable>> col;
-    ArrayList<String> labels;
-    DataFrame dfToTest;
 
-    @Before
-    public void init(){
-        col = new ArrayList<ArrayList<? extends Comparable>>();
-        labels = new ArrayList<String>();
-        ArrayList<Integer> firstCol = new ArrayList<Integer>();
-        firstCol.add(-1);
-        firstCol.add(0);
-        firstCol.add(1);
-        firstCol.add(2);
-        firstCol.add(3);
-        firstCol.add(8);
+    @Test
+    public void testMaxData(){
+        ArrayList<Integer> data = new ArrayList<Integer>();
+        data.add(3);
+        data.add(7);
 
-        ArrayList<Double>  secondCol = new ArrayList<Double>();
-        secondCol.add(1.0);
-        secondCol.add(2.5);
-        secondCol.add(0.0);
-        secondCol.add(0.4);
-        secondCol.add(0.0);
-        secondCol.add(0.1);
+        DataCol datacol = new DataCol("Entier", data);
 
-        ArrayList<String>  thirdCol = new ArrayList<String>();
-        thirdCol.add("Victor");
-        thirdCol.add("Maxime");
-        thirdCol.add("Malotru");
-        thirdCol.add("Vaccination");
-        thirdCol.add("Abeille");
-        thirdCol.add("Zébulon!");
-
-        col.add(firstCol);
-        col.add(secondCol);
-        col.add(thirdCol);
-
-        labels.add("Index");
-        labels.add("Note");
-        labels.add("Mot");
-
-        dfToTest = new DataFrame(labels,col);
-
+        assertEquals("Max Data", 7, datacol.getMax());
     }
 
     @Test
-    public void printAll(){
-        dfToTest.printAll();
+    public void testMinDataInteger(){
+        ArrayList<Integer> data = new ArrayList<Integer>();
+        data.add(3);
+        data.add(7);
+
+        DataCol datacol = new DataCol("Entier", data);
+
+        assertEquals(3, datacol.getMin());
     }
 
     @Test
-    public void printFirstLine(){
-        dfToTest.print(0,0);
-    }
+    public void testSumData() throws ExceptionString {
+        ArrayList<Integer> data = new ArrayList<Integer>();
+        data.add(3);
+        data.add(7);
 
-    @Test
-    public void printFirstLines(){
-        dfToTest.print(2,3);
-    }
+        DataCol datacol = new DataCol("Entier", data);
 
-
-    @Test
-    public void testSize() throws ExceptionNoSuchColumn {
-
-        assertEquals("Doit être égal à 6 pour la colonne Index",6, dfToTest.getCount("Index"));
-        assertEquals("Doit être égal à 6 pour la colonne Note",6, dfToTest.getCount("Note"));
-        assertEquals("Doit être égal à 6 pour la colonne Mot",6, dfToTest.getCount("Mot"));
-
-    }
-
-    @Test(expected=ExceptionNoSuchColumn.class)
-    public void testColonneExist() throws ExceptionNoSuchColumn, ExceptionString {
-
-        dfToTest.getAvg("DontExists");
-
-    }
-
-    //INTEGER
-    @Test
-    public void testSum() throws ExceptionString, ExceptionNoSuchColumn {
-        assertEquals("Somme de la colonne Index",13, dfToTest.getSum("Index"));
-        assertEquals("Somme de la colonne Note",4.0, dfToTest.getSum("Note"));
-    }
-
-    @Test(expected = ExceptionString.class)
-    public void testSumString() throws ExceptionString, ExceptionNoSuchColumn {
-        dfToTest.getSum("Mot");
-    }
-
-    @Test
-    public void testAvg() throws ExceptionString, ExceptionNoSuchColumn {
-        assertEquals("Moyenne de la colonne Index",(13/6), dfToTest.getAvg("Index"));
-        assertEquals("Moyenne de la colonne Note",(double)4/6, dfToTest.getAvg("Note"));
+        assertEquals(10, datacol.getSum());
     }
 
     @Test(expected=ExceptionString.class)
-    public void testAvgString() throws ExceptionString, ExceptionNoSuchColumn {
-        dfToTest.getAvg("Mot");
+    public void testSumDataWithString() throws ExceptionString {
+        ArrayList<String> data = new ArrayList<String>();
+        data.add("Victor");
+        data.add("Maxime");
+
+        DataCol datacol = new DataCol("Prenom", data);
+
+        datacol.getSum();
     }
 
     @Test
-    public void testMin() throws ExceptionNoSuchColumn {
-        assertEquals("Minimum de la colonne Index",-1, dfToTest.getMin("Index"));
-        assertEquals("Minimum de la colonne Mot","Abeille", dfToTest.getMin("Mot"));
-        assertEquals("Minimum de la colonne Note",0.0, dfToTest.getMin("Note"));
+    public void testGetLabel(){
+        DataCol datacol = new DataCol("Label", null);
+        assertEquals("Label", datacol.getLabel());
     }
 
     @Test
-    public void testMax() throws ExceptionNoSuchColumn {
-        assertEquals("Maximum de la colonne Index",8, dfToTest.getMax("Index"));
-        assertEquals("Maximum de la colonne Mot","Zébulon!", dfToTest.getMax("Mot"));
-        assertEquals("Maximum de la colonne Note",2.5, dfToTest.getMax("Note"));
+    public void testGetSize(){
+        ArrayList<String> data = new ArrayList<String>();
+        data.add("Victor");
+        data.add("Maxime");
+        data.add("Thomas");
+        data.add("Antoine");
+
+        DataCol datacol = new DataCol("Prenom", data);
+
+        assertEquals(4, datacol.getSize());
     }
+
+    @Test
+    public void testSelectLine() throws ExceptionColBadIndex {
+        ArrayList<String> data = new ArrayList<String>();
+        data.add("Victor");
+        data.add("Maxime");
+        data.add("Thomas");
+        data.add("Antoine");
+
+        DataCol datacol = new DataCol("Prenom", data);
+
+        DataCol newDatacol = datacol.selectByLine(2,3);
+
+        assertEquals(2, newDatacol.getSize());
+        assertEquals("Prenom", newDatacol.getLabel());
+    }
+
+    @Test(expected = ExceptionColBadIndex.class)
+    public void testSelectLineNegativeIndex() throws ExceptionColBadIndex {
+        ArrayList<String> data = new ArrayList<String>();
+        data.add("Victor");
+        data.add("Maxime");
+        data.add("Thomas");
+        data.add("Antoine");
+
+        DataCol datacol = new DataCol("Prenom", data);
+
+        DataCol newDatacol = datacol.selectByLine(-2,3);
+
+    }
+
+    @Test(expected = ExceptionColBadIndex.class)
+    public void testSelectLineInversedIndex() throws ExceptionColBadIndex {
+        ArrayList<String> data = new ArrayList<String>();
+        data.add("Victor");
+        data.add("Maxime");
+        data.add("Thomas");
+
+        DataCol datacol = new DataCol("Prenom", data);
+
+        DataCol newDatacol = datacol.selectByLine(2,1);
+
+    }
+
+    @Test(expected = ExceptionColBadIndex.class)
+    public void testSelectLineOutOfBoundIndex() throws ExceptionColBadIndex {
+        ArrayList<String> data = new ArrayList<String>();
+        data.add("Victor");
+        data.add("Maxime");
+        data.add("Thomas");
+        data.add("Antoine");
+
+        DataCol datacol = new DataCol("Prenom", data);
+
+        DataCol newDatacol = datacol.selectByLine(2,5);
+
+    }
+
+    @Test
+    public void testAvgInteger() throws ExceptionString{
+        ArrayList<Integer> data = new ArrayList<Integer>();
+        data.add(5);
+        data.add(5);
+
+        DataCol datacol = new DataCol("Entier", data);
+
+        assertEquals(5, datacol.getAvg());
+    }
+
+    @Test
+    public void testAvgDouble() throws ExceptionString{
+        ArrayList<Double> data = new ArrayList<Double>();
+        data.add(0.0);
+        data.add(2.0);
+
+        DataCol datacol = new DataCol("Entier", data);
+
+        assertEquals(1.0, datacol.getAvg());
+    }
+
+    @Test(expected = ExceptionString.class)
+    public void testAvgString() throws ExceptionString {
+        ArrayList<String> data = new ArrayList<String>();
+        data.add("Victor");
+        data.add("Maxime");
+        data.add("Thomas");
+        data.add("Antoine");
+
+        DataCol datacol = new DataCol("Prenom", data);
+        datacol.getAvg();
+    }
+
 }

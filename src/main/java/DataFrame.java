@@ -189,10 +189,14 @@ public class DataFrame {
         }else if (setOfCol.get(0).getSize()<end){
             System.out.println("Erreur, borne inférieure est supérieure à la borne supérieure.");
         }else{
-            Iterator i = setOfCol.keySet().iterator();
-            while(i.hasNext()){
-                String s = (String) i.next();
-                newSetOfCol.put(s,setOfCol.get(s).selectByLine(begin,end));
+            try {
+                Iterator i = setOfCol.keySet().iterator();
+                while(i.hasNext()){
+                    String s = (String) i.next();
+                    newSetOfCol.put(s,setOfCol.get(s).selectByLine(begin,end));
+                }
+            } catch (ExceptionColBadIndex e){
+                System.err.println("Bad indexes");
             }
         }
         return new DataFrame(newSetOfCol);
