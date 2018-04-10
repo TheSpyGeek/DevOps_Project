@@ -1,5 +1,5 @@
 # Projet DevOps
 ## Intégration continue
 
-Pour lancer Emma avec maven lancer: mvn site
+[![codecov](https://codecov.io/gh/TheSpyGeek/DevOps_Project/branch/master/graph/badge.svg?token=gK8JynLGcl)](https://codecov.io/gh/TheSpyGeek/DevOps_Project)
 
