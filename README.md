@@ -1,5 +1,4 @@
-# Projet DevOps
-## Intégration continue
+# Projet DevOps [![codecov](https://codecov.io/gh/TheSpyGeek/DevOps_Project/branch/master/graph/badge.svg?token=gK8JynLGcl)](https://codecov.io/gh/TheSpyGeek/DevOps_Project)
 
-[![codecov](https://codecov.io/gh/TheSpyGeek/DevOps_Project/branch/master/graph/badge.svg?token=gK8JynLGcl)](https://codecov.io/gh/TheSpyGeek/DevOps_Project)
+
 
