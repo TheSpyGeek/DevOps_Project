@@ -1,4 +1,4 @@
 language: java
 script: "mvn site"
 after_success:
-   - bash <(curl -s https://codecov.io/bash)
+   - bash <(curl -s https://codecov.io/bash) -t 15f7dfa7-18e5-4901-bf3c-12e9fb3545e6
