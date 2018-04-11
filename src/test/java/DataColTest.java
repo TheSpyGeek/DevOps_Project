@@ -1,4 +1,5 @@
 import org.junit.Test;
+import myExceptions.*;
 
 import java.util.ArrayList;
 
@@ -41,7 +42,7 @@ public class DataColTest {
         assertEquals(10, datacol.getSum());
     }
 
-    @Test(expected=ExceptionString.class)
+    @Test(expected= ExceptionString.class)
     public void testSumDataWithString() throws ExceptionString {
         ArrayList<String> data = new ArrayList<String>();
         data.add("Victor");
@@ -129,7 +130,7 @@ public class DataColTest {
     }
 
     @Test
-    public void testAvgInteger() throws ExceptionString{
+    public void testAvgInteger() throws ExceptionString {
         ArrayList<Integer> data = new ArrayList<Integer>();
         data.add(5);
         data.add(5);
@@ -140,7 +141,7 @@ public class DataColTest {
     }
 
     @Test
-    public void testAvgDouble() throws ExceptionString{
+    public void testAvgDouble() throws ExceptionString {
         ArrayList<Double> data = new ArrayList<Double>();
         data.add(0.0);
         data.add(2.0);

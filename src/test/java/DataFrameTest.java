@@ -1,10 +1,9 @@
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 
 import static org.junit.Assert.*;
 import java.util.ArrayList;
+import myExceptions.*;
 
 public class DataFrameTest {
 
@@ -77,7 +76,7 @@ public class DataFrameTest {
 
     }
 
-    @Test(expected=ExceptionNoSuchColumn.class)
+    @Test(expected= ExceptionNoSuchColumn.class)
     public void testColonneExist() throws ExceptionNoSuchColumn, ExceptionString {
 
         dfToTest.getAvg("DontExists");
@@ -102,7 +101,7 @@ public class DataFrameTest {
         assertEquals("Moyenne de la colonne Note",(double)4/6, dfToTest.getAvg("Note"));
     }
 
-    @Test(expected=ExceptionString.class)
+    @Test(expected= ExceptionString.class)
     public void testAvgString() throws ExceptionString, ExceptionNoSuchColumn {
         dfToTest.getAvg("Mot");
     }

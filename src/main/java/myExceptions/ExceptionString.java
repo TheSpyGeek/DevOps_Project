@@ -1,3 +1,5 @@
+package myExceptions;
+
 public class ExceptionString extends Exception {
     @Override
     public String getMessage() {

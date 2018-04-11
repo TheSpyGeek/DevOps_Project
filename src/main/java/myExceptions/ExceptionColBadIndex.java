@@ -1,3 +1,5 @@
+package myExceptions;
+
 public class ExceptionColBadIndex extends Exception {
     @Override
     public String getMessage() {

@@ -2,6 +2,7 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
+import myExceptions.*;
 
 public class DataFrame {
 
@@ -207,7 +208,7 @@ public class DataFrame {
      * @param labels Nom des colonnes que l'on doit sélectionner
      * @return Le sous-ensemble du DataFrame sélectionné via les labels
      */
-    public DataFrame selectFromLabel(ArrayList<String> labels) throws ExceptionNoSuchColumn{
+    public DataFrame selectFromLabel(ArrayList<String> labels) throws ExceptionNoSuchColumn {
         LinkedHashMap<String, DataCol> newSetOfCol = new LinkedHashMap<String, DataCol>();
 
         for(String s: labels){
@@ -221,7 +222,7 @@ public class DataFrame {
         return new DataFrame(newSetOfCol);
     }
 
-    public Comparable getMax(String label) throws ExceptionNoSuchColumn{
+    public Comparable getMax(String label) throws ExceptionNoSuchColumn {
         if(setOfCol.containsKey(label)){
             return setOfCol.get(label).getMax();
         }else{
@@ -229,7 +230,7 @@ public class DataFrame {
         }
     }
 
-    public Comparable getMin(String label) throws ExceptionNoSuchColumn{
+    public Comparable getMin(String label) throws ExceptionNoSuchColumn {
         if(setOfCol.containsKey(label)){
             return setOfCol.get(label).getMin();
         }else{
@@ -253,7 +254,7 @@ public class DataFrame {
         }
     }
 
-    public int getCount(String label) throws ExceptionNoSuchColumn{
+    public int getCount(String label) throws ExceptionNoSuchColumn {
         if(setOfCol.containsKey(label)){
             return setOfCol.get(label).getSize();
         }else{

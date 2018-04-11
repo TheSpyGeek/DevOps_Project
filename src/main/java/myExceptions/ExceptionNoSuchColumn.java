@@ -1,3 +1,5 @@
+package myExceptions;
+
 public class ExceptionNoSuchColumn extends Exception {
     @Override
     public String getMessage() {

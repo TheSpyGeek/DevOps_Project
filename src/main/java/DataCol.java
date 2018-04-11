@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.Collections;
+import myExceptions.*;
 
 /**
  * DataCol représente les colonnes de notre DataFrame.
@@ -43,7 +44,7 @@ public class DataCol
      *
      * @return une nouvelle colonne avec les lignes demandées.
      */
-    public DataCol selectByLine(int begin, int end) throws ExceptionColBadIndex{
+    public DataCol selectByLine(int begin, int end) throws ExceptionColBadIndex {
 
         if(begin < 0 || end < 0 || end < begin || end >= getSize()){
             throw new ExceptionColBadIndex();
