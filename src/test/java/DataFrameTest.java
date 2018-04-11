@@ -55,21 +55,6 @@ public class DataFrameTest {
 
     }
 
-    @Test
-    public void printAll(){
-        dfToTest.printAll();
-    }
-
-    @Test
-    public void printFirstLine(){
-        dfToTest.print(0,0);
-    }
-
-    @Test
-    public void printFirstLines(){
-        dfToTest.print(2,3);
-    }
-
 
     @Test
     public void testSize() throws ExceptionNoSuchColumn {
@@ -122,5 +107,34 @@ public class DataFrameTest {
         assertEquals("Maximum de la colonne Index",8, dfToTest.getMax("Index"));
         assertEquals("Maximum de la colonne Mot","Zébulon!", dfToTest.getMax("Mot"));
         assertEquals("Maximum de la colonne Note",2.5, dfToTest.getMax("Note"));
+    }
+
+    @Test(expected = ExceptionNotSameSize.class)
+    public void testConstructor() throws ExceptionNotSameSize {
+        ArrayList<Integer> firstCol = new ArrayList<Integer>();
+        firstCol.add(-1);
+        firstCol.add(0);
+
+        ArrayList<Double>  secondCol = new ArrayList<Double>();
+        secondCol.add(1.0);
+        secondCol.add(2.5);
+        secondCol.add(0.0);
+
+        ArrayList<String> labels = new ArrayList<String>();
+        labels.add("Entier");
+        labels.add("Double");
+        labels.add("String");
+
+        ArrayList<ArrayList<? extends Comparable>> col = new ArrayList<ArrayList<? extends Comparable>>();
+        col.add(firstCol);
+        col.add(secondCol);
+
+        DataFrame dt = new DataFrame(labels, col);
+
+    }
+
+    @Test
+    public void testSelectLine(){
+        
     }
 }

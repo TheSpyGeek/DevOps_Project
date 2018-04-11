@@ -184,21 +184,17 @@ public class DataFrame {
      */
     public DataFrame selectFromLine(int begin, int end){
         LinkedHashMap<String, DataCol> newSetOfCol = new LinkedHashMap<String, DataCol>();
-        if(begin>end){
-            System.out.println("Erreur, borne inférieure est supérieure à la borne supérieure.");
-        }else if (setOfCol.get(0).getSize()<end){
-            System.out.println("Erreur, borne inférieure est supérieure à la borne supérieure.");
-        }else{
-            try {
-                Iterator i = setOfCol.keySet().iterator();
-                while(i.hasNext()){
-                    String s = (String) i.next();
-                    newSetOfCol.put(s,setOfCol.get(s).selectByLine(begin,end));
-                }
-            } catch (ExceptionColBadIndex e){
-                System.err.println("Bad indexes");
+
+        try {
+            Iterator i = setOfCol.keySet().iterator();
+            while(i.hasNext()){
+                String s = (String) i.next();
+                newSetOfCol.put(s,setOfCol.get(s).selectByLine(begin,end));
             }
+        } catch (ExceptionColBadIndex e){
+            System.err.println("Bad indexes");
         }
+
         return new DataFrame(newSetOfCol);
     }
 
