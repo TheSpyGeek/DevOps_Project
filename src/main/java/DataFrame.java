@@ -14,7 +14,7 @@ public class DataFrame {
      * @param cols liste de colonnes.
      * @param labels liste des labels respectifs des cols.
      */
-    public DataFrame(ArrayList<String> labels, ArrayList<ArrayList<? extends Comparable>> cols){
+    public DataFrame(ArrayList<String> labels, ArrayList<ArrayList<? extends Comparable>> cols) throws ExceptionNotSameSize{
         setOfCol = new LinkedHashMap<String, DataCol>();
         if(labels.size()!=cols.size())
             System.out.println("Warning, plus de labels que de colonnes.");
@@ -22,8 +22,7 @@ public class DataFrame {
         int s = cols.get(0).size();
         for(int i = 1; i < cols.size(); i++){
             if(s!=cols.get(i).size()){
-                System.out.println("ERROR: Une colonne a plus d'élément qu'une autre!");
-                System.exit(1);
+                throw new ExceptionNotSameSize();
             }
         }
 

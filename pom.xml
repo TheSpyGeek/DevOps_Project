@@ -22,7 +22,7 @@
       <scope>test</scope>
     </dependency>
   </dependencies>
-    <build>
+    <reporting>
             <plugins>
                 <plugin>
                     <groupId>org.codehaus.mojo</groupId>
@@ -37,7 +37,7 @@
                     </configuration>
                 </plugin>
             </plugins>
-    </build>
+    </reporting>
 
 
 </project>

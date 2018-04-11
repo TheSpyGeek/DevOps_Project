@@ -47,7 +47,11 @@ public class DataFrameTest {
         labels.add("Note");
         labels.add("Mot");
 
-        dfToTest = new DataFrame(labels,col);
+        try {
+            dfToTest = new DataFrame(labels,col);
+        } catch (ExceptionNotSameSize exceptionNotSameSize) {
+            exceptionNotSameSize.printStackTrace();
+        }
 
     }
 

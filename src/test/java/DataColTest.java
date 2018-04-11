@@ -129,6 +129,20 @@ public class DataColTest {
 
     }
 
+    @Test(expected = ExceptionColBadIndex.class)
+    public void testSelectLineOutOfBoundIndex2() throws ExceptionColBadIndex {
+        ArrayList<String> data = new ArrayList<String>();
+        data.add("Victor");
+        data.add("Maxime");
+        data.add("Thomas");
+        data.add("Antoine");
+
+        DataCol datacol = new DataCol("Prenom", data);
+
+        DataCol newDatacol = datacol.selectByLine(2,7);
+
+    }
+
     @Test
     public void testAvgInteger() throws ExceptionString {
         ArrayList<Integer> data = new ArrayList<Integer>();
