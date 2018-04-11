@@ -1,8 +1,15 @@
-import java.io.*;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import myExceptions.*;
+package dataframe;
+
+import myExceptions.ExceptionColBadIndex;
+import myExceptions.ExceptionNoSuchColumn;
+import myExceptions.ExceptionNotSameSize;
+import myExceptions.ExceptionString;
+
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.lang.reflect.Array;
+import java.util.*;
 
 public class DataFrame {
 
@@ -33,12 +40,21 @@ public class DataFrame {
     }
 
     /**
+     * Wrappeurr du constructeur DataFrame simplifié pour les tests.
+     * @param cols liste de colonnes.
+     * @param labelsSimplify liste des labels respectifs des cols mais simplifié dans le constructeur pour les tests
+     *                       Possibilité d'appeler en mettant {label1, label2, ...}
+     */
+    public DataFrame(String[] labelsSimplify, ArrayList<ArrayList<? extends Comparable>> cols) throws ExceptionNotSameSize{
+        new DataFrame(new ArrayList<String>(Arrays.asList(labelsSimplify)), cols);
+    }
+
+    /**
      * Construction d'un objet Dataframe à partir d'un fichier csv.
      * @param csvPath Chemin du fichier csv à parser.
      */
     public DataFrame(String csvPath){
         setOfCol = new LinkedHashMap<String, DataCol>();
-
         String line = "";
         String separator = ",";
         boolean firstPass = true;
@@ -55,7 +71,6 @@ public class DataFrame {
 
                     //On part du principe que le premier élément de la colonne contient le label
                     if(firstPass){
-                        System.out.println(lineContent[i]);
                         labels.add(lineContent[i]);
                         datas.add(new ArrayList<String>());
                         types.add(0);
@@ -182,17 +197,13 @@ public class DataFrame {
      * @param end Borne supérieure
      * @return Le sous-ensemble du DataFrame sélectionné via les lignes
      */
-    public DataFrame selectFromLine(int begin, int end){
+    public DataFrame selectFromLine(int begin, int end) throws ExceptionColBadIndex {
         LinkedHashMap<String, DataCol> newSetOfCol = new LinkedHashMap<String, DataCol>();
 
-        try {
-            Iterator i = setOfCol.keySet().iterator();
-            while(i.hasNext()){
-                String s = (String) i.next();
-                newSetOfCol.put(s,setOfCol.get(s).selectByLine(begin,end));
-            }
-        } catch (ExceptionColBadIndex e){
-            System.err.println("Bad indexes");
+        Iterator i = setOfCol.keySet().iterator();
+        while(i.hasNext()){
+            String s = (String) i.next();
+            newSetOfCol.put(s,setOfCol.get(s).selectByLine(begin,end));
         }
 
         return new DataFrame(newSetOfCol);
@@ -255,6 +266,50 @@ public class DataFrame {
         }else{
             throw new ExceptionNoSuchColumn();
         }
+    }
+
+    public DataFrameGrouped groupBy(ArrayList<String> colToGroup) throws ExceptionNoSuchColumn {
+        HashMap<String, ArrayList<Integer>> lineToFusion = new HashMap<String, ArrayList<Integer>>();
+
+        /*if(!setOfCol.keySet().contains(colToGroup.get(0))){
+            throw new ExceptionNoSuchColumn();
+        }*/
+
+
+        Iterator i = setOfCol.keySet().iterator();
+        ArrayList<String> labels = new ArrayList<String>();
+        while(i.hasNext()){
+            labels.add((String) i.next());
+        }
+        //Nos données groupés
+        ArrayList<DataColGrouped> colGrouped = new ArrayList<DataColGrouped>();
+
+        DataCol dc = setOfCol.get(colToGroup.get(0));
+
+        for(int line= 0; line<dc.getData().size(); line++){
+            String lineToCheck = "";
+
+            for(int col = 0; col < colToGroup.size(); col++){
+                lineToCheck+=String.valueOf(setOfCol.get(colToGroup.get(col)).getData().get(line));
+            }
+            if(lineToFusion.containsKey(lineToCheck)){
+                lineToFusion.get(lineToCheck).add(line);
+            }else{
+                ArrayList<Integer> l = new ArrayList<Integer>();
+                l.add(line);
+                lineToFusion.put(lineToCheck, l);
+            }
+
+        }
+
+        //lineToFusion contient alors toutes les lignes que l'on doit fusionner
+
+        i = setOfCol.keySet().iterator();
+        while(i.hasNext()){
+            colGrouped.add(setOfCol.get(i.next()).group(lineToFusion));
+        }
+
+        return new DataFrameGrouped(labels,colToGroup,colGrouped);
     }
 
 }

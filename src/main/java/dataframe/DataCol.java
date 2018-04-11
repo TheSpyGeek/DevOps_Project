@@ -1,11 +1,19 @@
+package dataframe;
+
+import myExceptions.ExceptionColBadIndex;
+import myExceptions.ExceptionString;
+
 import java.util.ArrayList;
 import java.util.Collections;
-import myExceptions.*;
+import java.util.HashMap;
+import java.util.Iterator;
 
 /**
  * DataCol représente les colonnes de notre DataFrame.
+ *
+ * CETTE CLASSE N'EST ACCESSIBLE QUE DEPUIS LA CLASSE DATAFRAME
  */
-public class DataCol
+class DataCol
 {
     //Contient les données de toute une colonne
     private ArrayList<? extends Comparable> data;
@@ -15,7 +23,7 @@ public class DataCol
 
     public DataCol(String label, ArrayList<? extends Comparable> data){
         this.label = label;
-        this.data  = data;
+        this.data= data;
     }
 
     /**
@@ -106,5 +114,28 @@ public class DataCol
             return (Integer)getSum()/data.size();
         else
             throw new ExceptionString();
+    }
+
+    public ArrayList<? extends Comparable> getData() {
+        return data;
+    }
+
+    public DataColGrouped group(HashMap<String, ArrayList<Integer>> lineToFusion) {
+        Iterator i = lineToFusion.keySet().iterator();
+        int count = 0;
+        ArrayList<ArrayList<Comparable>> newCell = new ArrayList<ArrayList<Comparable>>();
+
+        for(int x = 0; x < lineToFusion.keySet().size(); x++){
+            newCell.add(new ArrayList<Comparable>());
+        }
+
+        while(i.hasNext()){
+            ArrayList<Integer> numberLines = lineToFusion.get(i.next());
+            for(Integer it: numberLines){
+                newCell.get(count).add(data.get(it));
+            }
+            count++;
+        }
+        return new DataColGrouped(newCell);
     }
 }
