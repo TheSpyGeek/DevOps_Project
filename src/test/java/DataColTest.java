@@ -10,7 +10,7 @@ import static org.junit.Assert.assertTrue;
 public class DataColTest {
 
 
-/*    @Test
+    @Test
     public void testMaxData(){
         ArrayList<Integer> data = new ArrayList<Integer>();
         data.add(3);
@@ -177,5 +177,5 @@ public class DataColTest {
         DataCol datacol = new DataCol("Prenom", data);
         datacol.getAvg();
     }
-*/
+
 }

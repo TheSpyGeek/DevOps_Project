@@ -16,7 +16,7 @@ public class DataFrameTest {
 
     @Before
     public void init(){
-        dfToTestCsv = new DataFrame("src/main/java/csv/csv1.csv");
+        dfToTestCsv = new DataFrame("src/test/ressources/csv1.csv");
         col = new ArrayList<ArrayList<? extends Comparable>>();
         labels = new ArrayList<String>();
         ArrayList<Integer> firstCol = new ArrayList<Integer>();
@@ -238,5 +238,13 @@ public class DataFrameTest {
         assertEquals("Maximum de la colonne Nom","G", dfToTestCsv.getMax("Nom"));
         assertEquals("Maximum de la colonne HASH","ZSH", dfToTestCsv.getMax("HASH"));
         assertEquals("Maximum de la colonne Note",5.0, dfToTestCsv.getMax("Note"));
+    }
+
+    @Test
+    public void testConstructCSV() throws ExceptionNoSuchColumn {
+
+        DataFrame dt = new DataFrame("src/test/ressources/csv1.csv");
+        assertEquals(5.0, dt.getMax("Note"));
+
     }
 }

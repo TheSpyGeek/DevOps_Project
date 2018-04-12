@@ -13,7 +13,7 @@ import java.util.Iterator;
  *
  * CETTE CLASSE N'EST ACCESSIBLE QUE DEPUIS LA CLASSE DATAFRAME
  */
-class DataCol
+public class DataCol
 {
     //Contient les données de toute une colonne
     private ArrayList<? extends Comparable> data;
