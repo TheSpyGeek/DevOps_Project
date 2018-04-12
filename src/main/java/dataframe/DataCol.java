@@ -10,7 +10,7 @@ import java.util.Iterator;
 
 /**
  * DataCol représente les colonnes de notre DataFrame.
- *
+ *  Test
  * CETTE CLASSE N'EST ACCESSIBLE QUE DEPUIS LA CLASSE DATAFRAME
  */
 public class DataCol
