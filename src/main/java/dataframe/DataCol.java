@@ -109,7 +109,7 @@ public class DataCol
      */
     public Comparable getAvg() throws ExceptionString {
         if(data.get(0) instanceof Double)
-            return (Double)((Double)getSum()/data.size());
+            return ((Double)getSum()/data.size());
         else if(data.get(0) instanceof Integer)
             return (Integer)getSum()/data.size();
         else

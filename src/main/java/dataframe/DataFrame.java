@@ -303,10 +303,10 @@ public class DataFrame {
         }
 
         //lineToFusion contient alors toutes les lignes que l'on doit fusionner
-
         i = setOfCol.keySet().iterator();
         while(i.hasNext()){
-            colGrouped.add(setOfCol.get(i.next()).group(lineToFusion));
+            if(!colToGroup.contains(i.next()))
+                colGrouped.add(setOfCol.get(i.next()).group(lineToFusion));
         }
 
         return new DataFrameGrouped(labels,colToGroup,colGrouped);
