@@ -16,10 +16,6 @@ class DataColGrouped {
         nbLine = this.data.size();
     }
 
-    public DataColGrouped(DataCol dataCol) {
-        this.data = new ArrayList<ArrayList<Comparable>>();
-    }
-
     public int getNbLine(){
         return nbLine;
     }
@@ -49,7 +45,7 @@ class DataColGrouped {
             for(int i = 0; i<data.size(); i++){
                 Double sum = 0.0;
                 for(int j = 0; j<data.get(i).size(); j++){
-                    sum+= (Integer)data.get(i).get(j);
+                    sum+= (Double)data.get(i).get(j);
                 }
                 sumVal.add(sum);
             }
