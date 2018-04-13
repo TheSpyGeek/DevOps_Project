@@ -8,6 +8,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import static org.junit.Assert.assertTrue;
 
@@ -105,7 +106,9 @@ public class DataFrameGroupedTest {
         waitedResult.add(2);
         waitedResult.add(1);
         assertTrue("Le résultat doit-être [3,2,1]",
-                waitedResult.containsAll(dfGroupedToTestGroupedByNom.count()));
+                compareList(waitedResult,dfGroupedToTestGroupedByNom.count())
+                        &&
+                        dfGroupedToTestGroupedByNom.count().size() == waitedResult.size());
 
 
 
@@ -116,7 +119,9 @@ public class DataFrameGroupedTest {
         waitedResult.add(1);
         waitedResult.add(1);
         assertTrue("Le résultat doit-être [2,2,1,1]",
-                waitedResult.containsAll(dfGroupedToTestGroupedByNomPrenom.count()));
+                compareList(waitedResult,dfGroupedToTestGroupedByNomPrenom.count())
+                        &&
+                        dfGroupedToTestGroupedByNomPrenom.count().size() == waitedResult.size());
     }
 
     @Test
@@ -129,8 +134,7 @@ public class DataFrameGroupedTest {
         resultWaited.add(13000);
 
         assertTrue("Victor doit avoir 6000, Maxime 4010, Selena 13000",
-                resultWaited.containsAll(dfGroupedToTestGroupedByNom.sum("RevenusInt")));
-
+                compareList(resultWaited,dfGroupedToTestGroupedByNom.sum("RevenusInt")));
 
         ArrayList<Double> resultWaited2 = new ArrayList<Double>();
         resultWaited2.add(5000.0);
@@ -138,7 +142,7 @@ public class DataFrameGroupedTest {
         resultWaited2.add(13000.0);
         resultWaited2.add(1000.0);
         assertTrue("Victor Baverel doit avoir 5000, Maxime Isnel 4010, Selena Gomes 13000, Victor Valdes 1000",
-                resultWaited2.containsAll(dfGroupedToTestGroupedByNomPrenom.sum("RevenusDouble")));
+                compareList(resultWaited2,dfGroupedToTestGroupedByNomPrenom.sum("RevenusDouble")));
     }
 
 
@@ -149,7 +153,7 @@ public class DataFrameGroupedTest {
         resultWaited.add(2005);
         resultWaited.add(13000);
         assertTrue("Victor doit avoir 2000, Maxime 2005, Selena 13000",
-                resultWaited.containsAll(dfGroupedToTestGroupedByNom.avg("RevenusInt")));
+                compareList(resultWaited,dfGroupedToTestGroupedByNom.avg("RevenusInt")));
 
 
 
@@ -159,7 +163,7 @@ public class DataFrameGroupedTest {
         resultWaited2.add(13000.0);
         resultWaited2.add(1000.0);
         assertTrue("Victor Baverel doit avoir 2500, Maxime Isnel 2005, Selena Gomes 13000, Victor Valdes 1000",
-                resultWaited2.containsAll(dfGroupedToTestGroupedByNomPrenom.avg("RevenusDouble")));
+                compareList(resultWaited2,dfGroupedToTestGroupedByNomPrenom.avg("RevenusDouble")));
     }
 
     @Test
@@ -169,9 +173,8 @@ public class DataFrameGroupedTest {
         resultWaited.add(4000);
         resultWaited.add(13000);
 
-
-        assertTrue("Victor doit avoir 2000, Maxime 2005, Selena 13000",
-                resultWaited.containsAll(dfGroupedToTestGroupedByNom.max("RevenusInt")));
+        assertTrue("Victor doit avoir 3000, Maxime 4000, Selena 13000",
+                compareList(resultWaited,dfGroupedToTestGroupedByNom.max("RevenusInt")));
 
 
 
@@ -182,7 +185,7 @@ public class DataFrameGroupedTest {
         resultWaited2.add(1000.0);
 
         assertTrue("Victor Baverel doit avoir 3000, Maxime Isnel 2000, Selena Gomes 13000, Victor Valdes 1000",
-                resultWaited2.containsAll(dfGroupedToTestGroupedByNomPrenom.max("RevenusDouble")));
+                compareList(resultWaited2,dfGroupedToTestGroupedByNomPrenom.max("RevenusDouble")));
 
 
 
@@ -193,9 +196,12 @@ public class DataFrameGroupedTest {
         resultWaited3.add("Le rouge et le noir");
         resultWaited3.add("Le bourreau de Gaudi");
 
+
+        System.out.println(Arrays.toString(dfGroupedToTestGroupedByNomPrenom.max("Livres préférés").toArray()));
+
         assertTrue("Victor Baverel doit avoir Kafka sur le rivage, Maxime Isnel L'assommoir," +
                         " Selena Gomes Le Rouge et le Noir, Victor Valdes Le Bourreau de Gaudi",
-                resultWaited3.containsAll(dfGroupedToTestGroupedByNomPrenom.max("Livres préférés")));
+                        compareList(resultWaited3, dfGroupedToTestGroupedByNomPrenom.max("Livres préférés")));
     }
 
     @Test
@@ -206,7 +212,8 @@ public class DataFrameGroupedTest {
         resultWaited.add(13000);
 
         assertTrue("Victor doit avoir 1000, Maxime 10, Selena 13000",
-                resultWaited.containsAll(dfGroupedToTestGroupedByNom.min("RevenusInt")));
+                compareList(resultWaited,dfGroupedToTestGroupedByNom.min("RevenusInt"))
+        );
 
 
         ArrayList<Double> resultWaited2 = new ArrayList<Double>();
@@ -216,7 +223,7 @@ public class DataFrameGroupedTest {
         resultWaited2.add(1000.0);
 
         assertTrue("Victor Baverel doit avoir 2000, Maxime Isnel 10, Selena Gomes 13000, Victor Valdes 1000",
-                resultWaited2.containsAll(dfGroupedToTestGroupedByNomPrenom.min("RevenusDouble")));
+                compareList(resultWaited2,dfGroupedToTestGroupedByNomPrenom.min("RevenusDouble")));
 
 
         ArrayList<String> resultWaited3 = new ArrayList<String>();
@@ -227,7 +234,25 @@ public class DataFrameGroupedTest {
 
         assertTrue("Victor Baverel doit avoir Bel-ami, Maxime Isnel 20 000 lieues sous les mers," +
                         " Selena Gomes Le Rouge et le Noir, Victor Valdes Le Bourreau de Gaudi",
-                resultWaited3.containsAll(dfGroupedToTestGroupedByNomPrenom.max("Livres préférés")));
+                compareList(resultWaited3,dfGroupedToTestGroupedByNomPrenom.min("Livres préférés")));
+    }
+
+    /**
+     * Vérifie que list1 et list2 sont bien égales
+     * @param list2
+     * @param list1
+     * @return
+     */
+    private boolean compareList(ArrayList<? extends Comparable> list1, ArrayList<? extends Comparable> list2) {
+        if(list2.size()!=list1.size()){
+            return false;
+        }else{
+            for(int i = 0; i<list1.size(); i++){
+                if(!list2.contains(list1.get(i)))
+                    return false;
+            }
+        }
+        return true;
     }
 
 

@@ -75,23 +75,23 @@ class DataColGrouped {
 
     public ArrayList<? extends Comparable> getMax() {
         if(data.get(0).get(0) instanceof Double){
-            ArrayList<Double> min = new ArrayList<Double>();
+            ArrayList<Double> max = new ArrayList<Double>();
             for(int i = 0; i<data.size(); i++){
-                min.add((Double) Collections.max(data.get(0)));
+                max.add((Double) Collections.max(data.get(i)));
             }
-            return min;
+            return max;
         }else if(data.get(0).get(0) instanceof Integer){
-            ArrayList<Integer> min = new ArrayList<Integer>();
+            ArrayList<Integer> max = new ArrayList<Integer>();
             for(int i = 0; i<data.size(); i++){
-                min.add((Integer) Collections.max(data.get(0)));
+                max.add((Integer) Collections.max(data.get(i)));
             }
-            return min;
+            return max;
         }else{//C'est une colonne de String
-            ArrayList<String> min = new ArrayList<String>();
+            ArrayList<String> max = new ArrayList<String>();
             for(int i = 0; i<data.size(); i++){
-                min.add((String) Collections.max(data.get(0)));
+                max.add((String) Collections.max(data.get(i)));
             }
-            return min;
+            return max;
         }
     }
 
@@ -99,19 +99,19 @@ class DataColGrouped {
         if(data.get(0).get(0) instanceof Double){
             ArrayList<Double> min = new ArrayList<Double>();
             for(int i = 0; i<data.size(); i++){
-                min.add((Double) Collections.min(data.get(0)));
+                min.add((Double) Collections.min(data.get(i)));
             }
             return min;
         }else if(data.get(0).get(0) instanceof Integer){
             ArrayList<Integer> min = new ArrayList<Integer>();
             for(int i = 0; i<data.size(); i++){
-                min.add((Integer) Collections.min(data.get(0)));
+                min.add((Integer) Collections.min(data.get(i)));
             }
             return min;
         }else{//C'est une colonne de String
             ArrayList<String> min = new ArrayList<String>();
             for(int i = 0; i<data.size(); i++){
-                min.add((String) Collections.min(data.get(0)));
+                min.add((String) Collections.min(data.get(i)));
             }
             return min;
         }
