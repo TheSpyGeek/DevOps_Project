@@ -46,5 +46,21 @@ public class DataFrameGrouped {
         }
     }
 
+    public ArrayList<? extends Comparable> max(String label) throws ExceptionColIsGrouped {
+        if(colGroupedName.contains(label)){
+            throw  new ExceptionColIsGrouped();
+        }else{
+            return setOfCol.get(label).getMax();
+        }
+    }
+
+    public ArrayList<? extends Comparable> min(String label) throws ExceptionColIsGrouped {
+        if(colGroupedName.contains(label)){
+            throw  new ExceptionColIsGrouped();
+        }else{
+            return setOfCol.get(label).getMin();
+        }
+    }
+
 
 }

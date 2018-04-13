@@ -3,6 +3,7 @@ package dataframe;
 import myExceptions.ExceptionString;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 class DataColGrouped {
     //Chaque case contient à présent une liste de comparable
@@ -13,6 +14,10 @@ class DataColGrouped {
     public DataColGrouped(ArrayList<ArrayList<Comparable>> data){
         this.data  = data;
         nbLine = this.data.size();
+    }
+
+    public DataColGrouped(DataCol dataCol) {
+        this.data = new ArrayList<ArrayList<Comparable>>();
     }
 
     public int getNbLine(){
@@ -58,17 +63,61 @@ class DataColGrouped {
         if(data.get(0).get(0) instanceof Double){
             ArrayList<Double> sumToAvg = (ArrayList<Double>) getSum();
             for(int i =0; i<sumToAvg.size(); i++){
-                sumToAvg.set(i, sumToAvg.get(i)/sumToAvg.size());
+                sumToAvg.set(i, sumToAvg.get(i)/data.get(i).size());
             }
             return sumToAvg;
         }else if(data.get(0).get(0) instanceof Integer){
             ArrayList<Integer> sumToAvg = (ArrayList<Integer>) getSum();
             for(int i =0; i<sumToAvg.size(); i++){
-                sumToAvg.set(i, sumToAvg.get(i)/sumToAvg.size());
+                sumToAvg.set(i, sumToAvg.get(i)/data.get(i).size());
             }
             return sumToAvg;
         }else{
             throw new ExceptionString();
+        }
+    }
+
+    public ArrayList<? extends Comparable> getMax() {
+        if(data.get(0).get(0) instanceof Double){
+            ArrayList<Double> min = new ArrayList<Double>();
+            for(int i = 0; i<data.size(); i++){
+                min.add((Double) Collections.max(data.get(0)));
+            }
+            return min;
+        }else if(data.get(0).get(0) instanceof Integer){
+            ArrayList<Integer> min = new ArrayList<Integer>();
+            for(int i = 0; i<data.size(); i++){
+                min.add((Integer) Collections.max(data.get(0)));
+            }
+            return min;
+        }else{//C'est une colonne de String
+            ArrayList<String> min = new ArrayList<String>();
+            for(int i = 0; i<data.size(); i++){
+                min.add((String) Collections.max(data.get(0)));
+            }
+            return min;
+        }
+    }
+
+    public ArrayList<? extends Comparable> getMin() {
+        if(data.get(0).get(0) instanceof Double){
+            ArrayList<Double> min = new ArrayList<Double>();
+            for(int i = 0; i<data.size(); i++){
+                min.add((Double) Collections.min(data.get(0)));
+            }
+            return min;
+        }else if(data.get(0).get(0) instanceof Integer){
+            ArrayList<Integer> min = new ArrayList<Integer>();
+            for(int i = 0; i<data.size(); i++){
+                min.add((Integer) Collections.min(data.get(0)));
+            }
+            return min;
+        }else{//C'est une colonne de String
+            ArrayList<String> min = new ArrayList<String>();
+            for(int i = 0; i<data.size(); i++){
+                min.add((String) Collections.min(data.get(0)));
+            }
+            return min;
         }
     }
 }

@@ -281,6 +281,7 @@ public class DataFrame {
         while(i.hasNext()){
             labels.add((String) i.next());
         }
+
         //Nos données groupés
         ArrayList<DataColGrouped> colGrouped = new ArrayList<DataColGrouped>();
 
@@ -305,7 +306,6 @@ public class DataFrame {
         //lineToFusion contient alors toutes les lignes que l'on doit fusionner
         i = setOfCol.keySet().iterator();
         while(i.hasNext()){
-            if(!colToGroup.contains(i.next()))
                 colGrouped.add(setOfCol.get(i.next()).group(lineToFusion));
         }
 
