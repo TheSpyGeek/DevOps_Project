@@ -213,6 +213,15 @@ public class DataFrameTest {
                 dfSelect.equals(dfToCompare));
     }
 
+
+
+    @Test(expected = ExceptionNoSuchColumn.class)
+    public void testSelectLabelsNotExist() throws ExceptionNoSuchColumn {
+        ArrayList labels = new ArrayList();
+        labels.add("NOT EXISTS");
+        DataFrame dfSelect = dfToTest.selectFromLabel(labels);
+    }
+
     /**
      * Compare deux dataframes inégaux.
      */

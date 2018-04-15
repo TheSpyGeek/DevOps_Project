@@ -22,7 +22,7 @@ public class DataFrame {
     public DataFrame(ArrayList<String> labels, ArrayList<ArrayList<? extends Comparable>> cols) throws ExceptionNotSameSize{
         setOfCol = new LinkedHashMap<String, DataCol>();
         if(labels.size()!=cols.size())
-            System.out.println("Warning, plus de labels que de colonnes.");
+            throw new ExceptionNotSameSize();
 
         int s = cols.get(0).size();
         for(int i = 1; i < cols.size(); i++){
