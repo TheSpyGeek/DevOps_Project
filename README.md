@@ -2,38 +2,38 @@
 
 #Pandas Pour Java
 
-###Réalisé par Maxime Isnel et Victor Baverel
+### Réalisé par Maxime Isnel et Victor Baverel
 
 
-##Implémentation
+## Implémentation
 
-###Fonctionnalitées réalisées
+### Fonctionnalitées réalisées
 
-*Possibilité de construire un DataFrame à partir d'un fichier CSV
-*Affichage d'un DataFrame
-*Sélection sur un DataFrame par ligne ou par colonne
-*Diverses opérations sur les colonnes
-    -Moyenne
-    -Somme
-    -Maximum
-    -Minimum
+* Possibilité de construire un DataFrame à partir d'un fichier CSV
+* Affichage d'un DataFrame
+* Sélection sur un DataFrame par ligne ou par colonne
+* Diverses opérations sur les colonnes
+    - Moyenne
+    - Somme
+    - Maximum
+    - Minimum
 
-*Implémentation du GroupBy sur une OU plusieurs colonnes
-*Possibilités de réaliser diverses opération d'aggrégation sur un GroupBy
-    -Moyenne
-    -Somme
-    -Count
-    -Maximum
-    -Minimum
--Avec la possibilité d'afficher les résultats de ces opération d'aggrégations
+* Implémentation du GroupBy sur une OU plusieurs colonnes
+* Possibilités de réaliser diverses opération d'aggrégation sur un GroupBy
+    - Moyenne
+    - Somme
+    - Count
+    - Maximum
+    - Minimum
+* Avec la possibilité d'afficher les résultats de ces opération d'aggrégations
 
-###Contraintes imposées par notre implémentation
+### Contraintes imposées par notre implémentation
 
 Toutes les colonnes d'un DataFrame doivent avoir le même nombre d'éléments.
 
 Impossible de réaliser une opération d'aggrégation sur une des colonnes groupées (dans le cas d'un GroupBy)
 
-##Intégration Continue
+## Intégration Continue
 
 Utilisation de Travis-ci.
 Utilisation de Cobertura pour la couverture de code.
