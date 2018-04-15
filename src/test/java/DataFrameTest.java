@@ -171,35 +171,78 @@ public class DataFrameTest {
     }
 
     @Test
-    public void testSelectLabels() throws ExceptionNoSuchColumn, ExceptionOutOfRange {
-        System.out.println("\n\n ----TEST SELECT LABELS, AFFICHAGE DU DATAFRAME DE BASE---- \n");
-        dfToTest.printAll();
+    public void testSelectLabels() throws ExceptionNoSuchColumn, ExceptionOutOfRange, ExceptionNotSameSize {
+        ArrayList cloneTestSelectLabelsData = new ArrayList();
+        ArrayList<String> cloneTestSelectLabelsDataCol1 = new ArrayList<String>();
+        cloneTestSelectLabelsDataCol1.add("Victor");
+        cloneTestSelectLabelsDataCol1.add("Maxime");
+        cloneTestSelectLabelsDataCol1.add("Malotru");
+        cloneTestSelectLabelsDataCol1.add("Vaccination");
+        cloneTestSelectLabelsDataCol1.add("Abeille");
+        cloneTestSelectLabelsDataCol1.add("Zébulon!");
+        cloneTestSelectLabelsData.add(cloneTestSelectLabelsDataCol1);
+
 
         ArrayList<String> labels = new ArrayList<String>();
         labels.add("Mot");
-        DataFrame df = dfToTest.selectFromLabel(labels);
-        System.out.println("\n\n SELECTION DE MOT POUR REFAIRE UNE DATA FRAME PUIS AFFICHAGE: \n");
-        df.printAll();
 
+        DataFrame dfToCompare = new DataFrame(labels,cloneTestSelectLabelsData);
+        DataFrame dfSelect = dfToTest.selectFromLabel(labels);
+        assertTrue("Les dataframes doivent-être similaires (Selection Sur la colonne Mot)! ",
+                dfToTest.equals(dfToCompare));
 
         labels.add("Index");
-        DataFrame df2 = dfToTest.selectFromLabel(labels);
-        System.out.println("\n\n SELECTION DE MOT ET INDEX POUR REFAIRE UNE DATA FRAME PUIS AFFICHAGE: \n");
-        df2.printAll();
+
+        ArrayList<Integer> cloneTestSelectLabelsDataCol2 = new ArrayList<Integer>();
+        cloneTestSelectLabelsDataCol2.add(-1);
+        cloneTestSelectLabelsDataCol2.add(0);
+        cloneTestSelectLabelsDataCol2.add(1);
+        cloneTestSelectLabelsDataCol2.add(2);
+        cloneTestSelectLabelsDataCol2.add(3);
+        cloneTestSelectLabelsDataCol2.add(8);
+        cloneTestSelectLabelsData.add(cloneTestSelectLabelsDataCol2);
+
+        dfSelect = dfToTest.selectFromLabel(labels);
+
+        dfToCompare = new DataFrame(labels,cloneTestSelectLabelsData);
+
+
+        assertTrue("Les dataframes doivent-être similaires (Selection Sur la colonne Mot et Index)! ",
+                dfToTest.equals(dfToCompare));
     }
 
-    @Test
-    public void testSelectLines() throws ExceptionNoSuchColumn, ExceptionColBadIndex, ExceptionOutOfRange {
-        System.out.println("\n\n ---- TEST SELECT LINES, AFFICHAGE DU DATAFRAME DE BASE. -----\n");
-        dfToTest.printAll();
 
-        DataFrame df = dfToTest.selectFromLine(0,0);
-        System.out.println("\n\n SELECTION DE LA PREMIERE LIGNE POUR REFAIRE UNE DATA FRAME PUIS AFFICHAGE: \n");
-        df.printAll();
 
-        DataFrame df2 = dfToTest.selectFromLine(1,5);
-        System.out.println("\n\n SELECTION DE LA DEUXIEME LIGNE A LA FIN POUR REFAIRE UNE DATA FRAME PUIS AFFICHAGE: \n");
-        df2.printAll();
+
+    @Test(expected = ExceptionOutOfRange.class)
+    public void testPrintOutOfRange1() throws ExceptionColBadIndex, ExceptionOutOfRange {
+        dfToTest.print(4,0);
+    }
+
+    @Test(expected = ExceptionOutOfRange.class)
+    public void testPrintOutOfRange2() throws ExceptionColBadIndex, ExceptionOutOfRange {
+        dfToTest.print(-1,12);
+    }
+
+    @Test(expected = ExceptionOutOfRange.class)
+    public void testPrintOutOfRange3() throws ExceptionColBadIndex, ExceptionOutOfRange {
+        dfToTest.print(0,12);
+    }
+
+
+    @Test(expected = ExceptionOutOfRange.class)
+    public void testSelectLinesOutOfRange1() throws ExceptionColBadIndex, ExceptionOutOfRange {
+        DataFrame df = dfToTest.selectFromLine(4,0);
+    }
+
+    @Test(expected = ExceptionOutOfRange.class)
+    public void testSelectLinesOutOfRange2() throws ExceptionColBadIndex, ExceptionOutOfRange {
+        DataFrame df = dfToTest.selectFromLine(-1,12);
+    }
+
+    @Test(expected = ExceptionOutOfRange.class)
+    public void testSelectLinesOutOfRange3() throws ExceptionColBadIndex, ExceptionOutOfRange {
+        DataFrame df = dfToTest.selectFromLine(0,12);
     }
 
 
