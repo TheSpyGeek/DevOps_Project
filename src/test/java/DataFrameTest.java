@@ -109,6 +109,21 @@ public class DataFrameTest {
         assertEquals("Maximum de la colonne Note",2.5, dfToTest.getMax("Note"));
     }
 
+    @Test(expected = ExceptionNotSameSize.class )
+    public void testConstructDataFrameNotSameNbColThanDatas() throws ExceptionNotSameSize {
+        ArrayList<Integer> firstCol = new ArrayList<Integer>();
+        firstCol.add(-1);
+
+        ArrayList<String> labels = new ArrayList<String>();
+        labels.add("A");
+        labels.add("B");
+
+        ArrayList<ArrayList<? extends Comparable>> datas = new ArrayList<ArrayList<? extends Comparable>>();
+        datas.add(firstCol);
+
+        new DataFrame(labels,datas);
+    }
+
 
 
 
