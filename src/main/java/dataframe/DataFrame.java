@@ -12,6 +12,7 @@ public class DataFrame {
 
     //Une dataframe est un ensemble de DataCol.
     LinkedHashMap<String, DataCol> setOfCol;
+    private int nbLine;
 
     /**
      * Construction d'un objet Dataframe à partir d'un ensemble de colonnes.
@@ -145,30 +146,32 @@ public class DataFrame {
      * @param end   Indique quand arrêter l'affichage. Si end = -1, alors tout afficher.
      */
     public void print(int begin, int end) throws ExceptionOutOfRange {
-        System.out.print("\t");
-        Iterator i = setOfCol.keySet().iterator();
-        while (i.hasNext()){
-            System.out.print(setOfCol.get(i.next()).getLabel()+"\t");
-        }
-        System.out.println();
-
-        if(end>=begin){
-            while(begin<=end){
-                System.out.print(begin+"\t");
-                i = setOfCol.keySet().iterator();
-                while (i.hasNext()){
-                    setOfCol.get(i.next()).print(begin);
-                }
-                System.out.println();
-                begin++;
+        if(end>=begin&&begin>=0&&end<(setOfCol.get(setOfCol.keySet().iterator().next()).getSize())&&end>0)
+        {
+            System.out.print("\t");
+            Iterator i = setOfCol.keySet().iterator();
+            while (i.hasNext()){
+                System.out.print(setOfCol.get(i.next()).getLabel()+"\t");
             }
+            System.out.println();
+
+
+                while(begin<=end ){
+                    System.out.print(begin+"\t");
+                    i = setOfCol.keySet().iterator();
+                    while (i.hasNext()){
+                        setOfCol.get(i.next()).print(begin);
+                    }
+                    System.out.println();
+                    begin++;
+                }
         }else{
             throw new ExceptionOutOfRange();
         }
     }
 
     public void printAll() throws ExceptionOutOfRange {
-        print(0,  (setOfCol.get(setOfCol.keySet().iterator().next()).getSize()-1));
+        print(0,  (setOfCol.get(setOfCol.keySet().iterator().next()).getSize())-1);
     }
 
     /**
@@ -177,7 +180,7 @@ public class DataFrame {
      * @param end Borne supérieure
      * @return Le sous-ensemble du DataFrame sélectionné via les lignes
      */
-    public DataFrame selectFromLine(int begin, int end) throws ExceptionColBadIndex {
+    public DataFrame selectFromLine(int begin, int end) throws ExceptionOutOfRange {
         LinkedHashMap<String, DataCol> newSetOfCol = new LinkedHashMap<String, DataCol>();
 
         Iterator i = setOfCol.keySet().iterator();
@@ -250,10 +253,6 @@ public class DataFrame {
 
     public DataFrameGrouped groupBy(ArrayList<String> colToGroup) throws ExceptionNoSuchColumn {
         HashMap<String, ArrayList<Integer>> lineToFusion = new HashMap<String, ArrayList<Integer>>();
-
-        /*if(!setOfCol.keySet().contains(colToGroup.get(0))){
-            throw new ExceptionNoSuchColumn();
-        }*/
 
 
         Iterator i = setOfCol.keySet().iterator();

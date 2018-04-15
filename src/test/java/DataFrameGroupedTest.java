@@ -231,8 +231,6 @@ public class DataFrameGroupedTest {
         resultWaited3.add("Le bourreau de Gaudi");
 
 
-        System.out.println(Arrays.toString(dfGroupedToTestGroupedByNomPrenom.max("Livres préférés").toArray()));
-
         assertTrue("Victor Baverel doit avoir Kafka sur le rivage, Maxime Isnel L'assommoir," +
                         " Selena Gomes Le Rouge et le Noir, Victor Valdes Le Bourreau de Gaudi",
                 compareList(resultWaited3, dfGroupedToTestGroupedByNomPrenom.max("Livres préférés")));

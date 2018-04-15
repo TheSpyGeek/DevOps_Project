@@ -1,6 +1,6 @@
 package dataframe;
 
-import myExceptions.ExceptionColBadIndex;
+import myExceptions.ExceptionOutOfRange;
 import myExceptions.ExceptionString;
 
 import java.util.ArrayList;
@@ -30,7 +30,7 @@ public class DataCol
      * Affiche l'élément demandé à l'index indiqué.
      * @param i index de l'élément à afficher.
      */
-    public void print(int i){
+    public void print(int i) {
         System.out.print(data.get(i).toString()+"\t");
     }
 
@@ -52,10 +52,10 @@ public class DataCol
      *
      * @return une nouvelle colonne avec les lignes demandées.
      */
-    public DataCol selectByLine(int begin, int end) throws ExceptionColBadIndex {
+    public DataCol selectByLine(int begin, int end) throws ExceptionOutOfRange {
 
         if(begin < 0 || end < 0 || end < begin || end >= getSize()){
-            throw new ExceptionColBadIndex();
+            throw new ExceptionOutOfRange();
         }
 
         ArrayList<Comparable> newCol = new ArrayList<Comparable>();
@@ -137,5 +137,9 @@ public class DataCol
             count++;
         }
         return new DataColGrouped(newCell);
+    }
+
+    public int getNbLine() {
+        return data.size();
     }
 }
