@@ -1,4 +1,6 @@
 import dataframe.DataFrame;
+import dataframe.DataFrameGrouped;
+import myExceptions.ExceptionColIsGrouped;
 import myExceptions.ExceptionNoSuchColumn;
 import myExceptions.ExceptionNotSameSize;
 import myExceptions.ExceptionString;
@@ -72,6 +74,65 @@ class App {
                 }
             }
             System.out.println();
+            System.out.println("\n--GROUP BY--\n");
+            if(df.getLabel().size()>2){
+                try {
+                    ArrayList<String> listGroupLabel = new ArrayList<String>();
+                    listGroupLabel.add(labels.get(0));
+                    listGroupLabel.add(labels.get(1));
+                    DataFrameGrouped dfG = df.groupBy(listGroupLabel);
+
+
+                    System.out.println("Average (Troisième Colonne):");
+                    printLabel(labels);
+                    try {
+                        System.out.print(dfG.avgPrint(labels.get(2))+"\t");
+                    } catch (ExceptionString exceptionString) {
+                        System.out.print("Mauvais Type.\t");
+                    } catch (ExceptionColIsGrouped exceptionColIsGrouped) {
+                        exceptionColIsGrouped.printStackTrace();
+                    }
+                    System.out.println("\n");
+
+                    System.out.println("Maximum (Troisième Colonne):");
+                    printLabel(labels);
+                    try {
+                        System.out.print(dfG.maxPrint(labels.get(2))+"\t");
+                    } catch (ExceptionColIsGrouped exceptionColIsGrouped) {
+                        exceptionColIsGrouped.printStackTrace();
+                    }
+                    System.out.println("\n");
+
+                    System.out.println("Minimum (Troisième Colonne):");
+                    printLabel(labels);
+                    try {
+                        System.out.print(dfG.minPrint(labels.get(2))+"\t");
+                    } catch (ExceptionColIsGrouped exceptionColIsGrouped) {
+                        exceptionColIsGrouped.printStackTrace();
+                    }
+                    System.out.println("\n");
+
+                    System.out.println("Count:");
+                    printLabel(labels);
+                    System.out.print(dfG.countPrint()+"\t");
+                    System.out.println("\n");
+
+                    System.out.println("Sum (Troisième Colonne):");
+                    printLabel(labels);
+                    try {
+                        System.out.print(dfG.sumPrint(labels.get(2))+"\t");
+                    } catch (ExceptionString exceptionString) {
+                        System.out.print("Mauvais Type.\t");
+                    } catch (ExceptionColIsGrouped exceptionColIsGrouped) {
+                        exceptionColIsGrouped.printStackTrace();
+                    }
+
+
+                } catch (ExceptionNoSuchColumn exceptionNoSuchColumn) {
+                }
+            }else{
+                System.out.println("Impossible de réaliser des opérations de Group By sur ce DataFrame. Voir README si vous le souhaitez.");
+            }
 
         } catch (IOException e) {
             System.err.println("Nous n'avons pas pu ouvrir le fichier \"file.csv\"");
