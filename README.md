@@ -51,3 +51,5 @@ Pour lancer la librairie avec docker il faut lancer cette commande:
 sudo docker run --mount type=bind,source=FileTest,target=/DevOps_Project/ressources thespygeek/javapanda
 
 FileTest est un dossier (chemin absolu) contenant un fichier "file.csv" sur lequel des stats vont être faites
+
+Assurez vous de disposer de la dernière version de dockers -> https://docs.docker.com/install/

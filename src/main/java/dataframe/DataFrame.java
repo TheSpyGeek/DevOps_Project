@@ -311,7 +311,7 @@ public class DataFrame {
     }
 
     public ArrayList<String> getLabel(){
-        ArrayList<String> labels = new ArrayList<>();
+        ArrayList<String> labels = new ArrayList<String>();
 
         Iterator it = this.setOfCol.keySet().iterator();
 
