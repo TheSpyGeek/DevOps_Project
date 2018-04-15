@@ -10,7 +10,7 @@ import java.util.Scanner;
 class App {
 	public static void main(String args[]){
         try {
-            DataFrame df = new DataFrame("file.csv");
+            DataFrame df = new DataFrame("ressources/file.csv");
 
             ArrayList<String> labels = df.getLabel();
 
@@ -72,7 +72,7 @@ class App {
                 }
             }
             System.out.println();
-            
+
         } catch (IOException e) {
             System.err.println("Nous n'avons pas pu ouvrir le fichier \"file.csv\"");
         } catch (ExceptionNotSameSize exceptionNotSameSize) {
