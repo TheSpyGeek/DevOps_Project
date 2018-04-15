@@ -1,3 +1,4 @@
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -371,14 +372,33 @@ public class DataFrameTest {
 
     @Test(expected = IOException.class)
     public void testConstructCSVNotExist() throws IOException, ExceptionNotSameSize {
-
         DataFrame dt = new DataFrame("src/test/ressources/csvnotexist.csv");
     }
 
     @Test(expected = ExceptionNotSameSize.class)
-    public void testCSVWithEmptyFields() throws IOException, ExceptionNotSameSize
-    {
-
+    public void testCSVWithEmptyFields() throws IOException, ExceptionNotSameSize {
         DataFrame dt = new DataFrame("src/test/ressources/csv4.csv");
+    }
+
+    @Test
+    public void testPrintAll() throws ExceptionOutOfRange {
+        Assert.assertEquals("\tIndex\tNote\tMot\t\n" +
+                "0\t-1\t1.0\tVictor\t\n" +
+                "1\t0\t2.5\tMaxime\t\n" +
+                "2\t1\t0.0\tMalotru\t\n" +
+                "3\t2\t0.4\tVaccination\t\n"+
+                "4\t3\t0.0\tAbeille\t\n" +
+                "5\t8\t0.1\tZébulon!\t\n",
+                dfToTest.printAll());
+    }
+
+    @Test
+    public void testPrintFirstLine() throws ExceptionOutOfRange {
+        DataFrame dfFirstLine = dfToTest.selectFromLine(0,0);
+
+        Assert.assertEquals("\tIndex\tNote\tMot\t\n" +
+                "0\t-1\t1.0\tVictor\t\n",
+                dfFirstLine.printAll());
+
     }
 }

@@ -209,7 +209,7 @@ public class DataColTest {
 
     @Test
     public void testMinCol(){
-        ArrayList<Integer> data = new ArrayList<>();
+        ArrayList<Integer> data = new ArrayList<Integer>();
         data.add(1500);
         data.add(2000);
         data.add(100);
@@ -221,7 +221,7 @@ public class DataColTest {
 
     @Test
     public void testMaxCol(){
-        ArrayList<Integer> data = new ArrayList<>();
+        ArrayList<Integer> data = new ArrayList<Integer>();
         data.add(1500);
         data.add(2000);
         data.add(100);
@@ -233,7 +233,7 @@ public class DataColTest {
 
     @Test
     public void testEqualsNotSameType(){
-        ArrayList<Integer> data = new ArrayList<>();
+        ArrayList<Integer> data = new ArrayList<Integer>();
         data.add(1500);
         data.add(2000);
         data.add(100);
@@ -247,7 +247,7 @@ public class DataColTest {
 
     @Test
     public void testEqualsNotSameSize(){
-        ArrayList<Integer> data = new ArrayList<>();
+        ArrayList<Integer> data = new ArrayList<Integer>();
         data.add(1500);
         data.add(2000);
         data.add(100);
@@ -255,7 +255,7 @@ public class DataColTest {
 
         DataCol datacol = new DataCol("Int", data);
 
-        ArrayList<Integer> data2 = new ArrayList<>();
+        ArrayList<Integer> data2 = new ArrayList<Integer>();
         data2.add(1500);
         data2.add(2000);
 

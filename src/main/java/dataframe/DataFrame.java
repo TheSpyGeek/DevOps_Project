@@ -144,33 +144,34 @@ public class DataFrame {
      * @param begin Indique à partir de quelle ligne afficher.
      * @param end   Indique quand arrêter l'affichage. Si end = -1, alors tout afficher.
      */
-    public void print(int begin, int end) throws ExceptionOutOfRange {
+    public String print(int begin, int end) throws ExceptionOutOfRange {
+        String s = "";
         if(end>=begin&&begin>=0&&end<(setOfCol.get(setOfCol.keySet().iterator().next()).getSize())&&end>=0)
         {
-            System.out.print("\t");
+            s+="\t";
             Iterator i = setOfCol.keySet().iterator();
             while (i.hasNext()){
-                System.out.print(setOfCol.get(i.next()).getLabel()+"\t");
+                s+=setOfCol.get(i.next()).getLabel()+"\t";
             }
-            System.out.println();
-
+            s+="\n";
 
                 while(begin<=end ){
-                    System.out.print(begin+"\t");
+                    s+=begin+"\t";
                     i = setOfCol.keySet().iterator();
                     while (i.hasNext()){
-                        setOfCol.get(i.next()).print(begin);
+                        s+=setOfCol.get(i.next()).print(begin);
                     }
-                    System.out.println();
+                    s+="\n";
                     begin++;
                 }
         }else{
             throw new ExceptionOutOfRange();
         }
+        return s;
     }
 
-    public void printAll() throws ExceptionOutOfRange {
-        print(0,  (setOfCol.get(setOfCol.keySet().iterator().next()).getSize())-1);
+    public String printAll() throws ExceptionOutOfRange {
+       return print(0,  (setOfCol.get(setOfCol.keySet().iterator().next()).getSize())-1);
     }
 
     /**
