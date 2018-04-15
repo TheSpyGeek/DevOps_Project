@@ -321,12 +321,12 @@ public class DataFrameTest {
         assertEquals("Somme de la colonne Index",15, dfToTestCsv.getSum("Index"));
     }
 
-    @Test(expected = ExceptionString.class)
+    @Test(expected = ExceptionNoSuchColumn.class)
     public void testSumStringCsv() throws ExceptionString, ExceptionNoSuchColumn {
         dfToTestCsv.getSum("HASH");
     }
 
-    @Test(expected= ExceptionString.class)
+    @Test(expected= ExceptionNoSuchColumn.class)
     public void testAvgStringCsv() throws ExceptionString, ExceptionNoSuchColumn {
         dfToTestCsv.getAvg("Prénom");
     }
@@ -342,9 +342,6 @@ public class DataFrameTest {
     public void testMinCsv() throws ExceptionNoSuchColumn {
         assertEquals("Minimum de la colonne Index",0, dfToTestCsv.getMin("Index"));
         assertEquals("Minimum de la colonne Age",2.0, dfToTestCsv.getMin("Age"));
-        assertEquals("Minimum de la colonne Prénom","1", dfToTestCsv.getMin("Prénom"));
-        assertEquals("Minimum de la colonne Nom","3", dfToTestCsv.getMin("Nom"));
-        assertEquals("Minimum de la colonne HASH","1", dfToTestCsv.getMin("HASH"));
         assertEquals("Minimum de la colonne Note",1.0, dfToTestCsv.getMin("Note"));
     }
 
@@ -352,10 +349,17 @@ public class DataFrameTest {
     public void testMaxCsv() throws ExceptionNoSuchColumn {
         assertEquals("Maximum de la colonne Index",5, dfToTestCsv.getMax("Index"));
         assertEquals("Maximum de la colonne Age",9.0, dfToTestCsv.getMax("Age"));
-        assertEquals("Maximum de la colonne Prénom","Papin", dfToTestCsv.getMax("Prénom"));
-        assertEquals("Maximum de la colonne Nom","G", dfToTestCsv.getMax("Nom"));
-        assertEquals("Maximum de la colonne HASH","ZSH", dfToTestCsv.getMax("HASH"));
         assertEquals("Maximum de la colonne Note",5.0, dfToTestCsv.getMax("Note"));
+    }
+
+    @Test(expected = ExceptionNoSuchColumn.class)
+    public void testMinExceptionString() throws ExceptionNoSuchColumn {
+        assertEquals("Minimum de la colonne Prénom","1", dfToTestCsv.getMin("Prénom"));
+    }
+
+    @Test(expected = ExceptionNoSuchColumn.class)
+    public void testMaxExceptionString() throws ExceptionNoSuchColumn {
+        assertEquals("Maximum de la colonne Prénom","Papin", dfToTestCsv.getMax("Prénom"));
     }
 
     @Test
