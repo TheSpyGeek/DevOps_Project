@@ -364,7 +364,4 @@ public class DataFrameGroupedTest {
                 "\tVictor\tValdes\t1\n", dfGroupedToTestGroupedByNomPrenom.countPrint());
     }
 
-
-
-
 }

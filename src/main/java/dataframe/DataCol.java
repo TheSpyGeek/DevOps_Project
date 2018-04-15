@@ -30,8 +30,8 @@ public class DataCol
      * Affiche l'élément demandé à l'index indiqué.
      * @param i index de l'élément à afficher.
      */
-    public void print(int i) {
-        System.out.print(data.get(i).toString()+"\t");
+    public String print(int i) {
+        return data.get(i).toString()+"\t";
     }
 
     /**
