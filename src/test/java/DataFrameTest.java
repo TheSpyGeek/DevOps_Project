@@ -322,12 +322,12 @@ public class DataFrameTest {
         assertEquals("Somme de la colonne Index",15, dfToTestCsv.getSum("Index"));
     }
 
-    @Test(expected = ExceptionNoSuchColumn.class)
+    @Test(expected = ExceptionString.class)
     public void testSumStringCsv() throws ExceptionString, ExceptionNoSuchColumn {
         dfToTestCsv.getSum("HASH");
     }
 
-    @Test(expected= ExceptionNoSuchColumn.class)
+    @Test(expected= ExceptionString.class)
     public void testAvgStringCsv() throws ExceptionString, ExceptionNoSuchColumn {
         dfToTestCsv.getAvg("Prenom");
     }
@@ -355,12 +355,12 @@ public class DataFrameTest {
 
     @Test(expected = ExceptionNoSuchColumn.class)
     public void testMinExceptionString() throws ExceptionNoSuchColumn {
-        assertEquals("Minimum de la colonne Prenom","1", dfToTestCsv.getMin("Prenom"));
+        dfToTestCsv.getMin("Lol");
     }
 
     @Test(expected = ExceptionNoSuchColumn.class)
     public void testMaxExceptionString() throws ExceptionNoSuchColumn {
-        assertEquals("Maximum de la colonne Prenom","Papin", dfToTestCsv.getMax("Prenom"));
+        dfToTestCsv.getMax("Ici");
     }
 
     @Test
