@@ -11,70 +11,81 @@ class App {
 	public static void main(String args[]){
         try {
             DataFrame df = new DataFrame("file.csv");
-            Scanner sc = new Scanner(System.in);
 
-            while(true){
+            ArrayList<String> labels = df.getLabel();
 
-                String cmd = sc.nextLine();
-
-                String cmdParsed[] = cmd.split(" ");
-
-                if(cmdParsed.length >= 1){
-                    try {
-                        switch(cmdParsed[0]){
-                            case "exit":
-                                System.exit(0);
-                                break;
-                            case "avg":
-                                if(cmdParsed.length >= 2){
-                                    System.out.println("Average = " +df.getAvg(cmdParsed[1]));
-                                } else {
-                                    System.out.println("Give a label");
-                                }
-
-                                break;
-                            case "min":
-                                if(cmdParsed.length >= 2){
-                                    System.out.println("Min = "+df.getMin(cmdParsed[1]));
-                                } else {
-                                    System.out.println("Give a label");
-                                }
-                                break;
-                            case "max":
-                                if(cmdParsed.length >= 2){
-                                    System.out.println("Max = "+df.getMax(cmdParsed[1]));
-                                } else {
-                                    System.out.println("Give a label");
-                                }
-
-                                break;
-                            case "count":
-                                if(cmdParsed.length >= 2){
-                                    System.out.println("Count = "+df.getCount(cmdParsed[1]));
-                                } else {
-                                    System.out.println("Give a label");
-                                }
-                                break;
-                            default:
-                        }
-                    } catch (ExceptionString exceptionString) {
-                        exceptionString.printStackTrace();
-                    } catch (ExceptionNoSuchColumn exceptionNoSuchColumn) {
-                        System.out.println("Ce label n'existe pas");
-                    }
+            System.out.println("Average:");
+            printLabel(labels);
+            for(String label: labels){
+                try {
+                    System.out.print(df.getAvg(label)+"\t");
+                } catch (ExceptionString exceptionString) {
+                    System.out.print("NULL\t");
+                } catch (ExceptionNoSuchColumn exceptionNoSuchColumn) {
+                    System.out.print("NULL\t");
                 }
-
-
             }
+            System.out.println("\n");
 
+            System.out.println("Maximum:");
+            printLabel(labels);
+            for(String label: labels){
+                try {
+                    System.out.print(df.getMax(label)+"\t");
+                } catch (ExceptionNoSuchColumn exceptionNoSuchColumn) {
+                    System.out.print("NULL\t");
+                }
+            }
+            System.out.println("\n");
+
+            System.out.println("Minimum:");
+            printLabel(labels);
+            for(String label: labels){
+                try {
+                    System.out.print(df.getMax(label)+"\t");
+                } catch (ExceptionNoSuchColumn exceptionNoSuchColumn) {
+                    System.out.print("NULL\t");
+                }
+            }
+            System.out.println("\n");
+
+            System.out.println("Count:");
+            printLabel(labels);
+            for(String label: labels){
+                try {
+                    System.out.print(df.getCount(label)+"\t");
+                } catch (ExceptionNoSuchColumn exceptionNoSuchColumn) {
+                    System.out.print("NULL\t");
+                }
+            }
+            System.out.println("\n");
+
+            System.out.println("Sum:");
+            printLabel(labels);
+            for(String label: labels){
+                try {
+                    System.out.print(df.getSum(label)+"\t");
+                } catch (ExceptionNoSuchColumn exceptionNoSuchColumn) {
+                    System.out.print("NULL\t");
+                } catch (ExceptionString exceptionString) {
+                    System.out.print("NULL\t");
+                }
+            }
+            System.out.println();
+            
         } catch (IOException e) {
-            System.out.println("Unable to open the file");
-            e.printStackTrace();
+            System.err.println("Nous n'avons pas pu ouvrir le fichier \"file.csv\"");
         } catch (ExceptionNotSameSize exceptionNotSameSize) {
-            System.err.println("Table not same size");
-            exceptionNotSameSize.printStackTrace();
+            System.err.println("Erreur les colonnes ne sont pas de la même taille");
         }
 
 
+    }
+
+    static public void printLabel(ArrayList<String> array){
+	    for(String s: array){
+            System.out.print(s + "\t");
+        }
+        System.out.println();
     }
 }

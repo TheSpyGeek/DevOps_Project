@@ -309,4 +309,16 @@ public class DataFrame {
         }
         return false;
     }
+
+    public ArrayList<String> getLabel(){
+        ArrayList<String> labels = new ArrayList<>();
+
+        Iterator it = this.setOfCol.keySet().iterator();
+
+        while(it.hasNext()){
+            labels.add((String)it.next());
+        }
+
+        return labels;
+    }
 }
