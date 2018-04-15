@@ -3,6 +3,8 @@ import org.junit.Test;
 
 import static junit.framework.TestCase.assertEquals;
 import static org.junit.Assert.*;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import myExceptions.*;
 import dataframe.*;
@@ -15,7 +17,7 @@ public class DataFrameTest {
     DataFrame dfToTestCsv;
 
     @Before
-    public void init(){
+    public void init() throws IOException, ExceptionNotSameSize {
         dfToTestCsv = new DataFrame("src/test/ressources/csv1.csv");
         col = new ArrayList<ArrayList<? extends Comparable>>();
         labels = new ArrayList<String>();
@@ -68,13 +70,6 @@ public class DataFrameTest {
 
     }
 
-    @Test(expected= ExceptionNoSuchColumn.class)
-    public void testColonneExist() throws ExceptionNoSuchColumn, ExceptionString {
-
-        dfToTest.getAvg("DontExists");
-    }
-
-    //INTEGER
     @Test
     public void testSum() throws ExceptionString, ExceptionNoSuchColumn {
         assertEquals("Somme de la colonne Index",13, dfToTest.getSum("Index"));
@@ -111,6 +106,46 @@ public class DataFrameTest {
         assertEquals("Maximum de la colonne Note",2.5, dfToTest.getMax("Note"));
     }
 
+
+
+
+
+
+
+
+
+
+    //Tests sur colonnes n'existant pas
+
+    @Test(expected= ExceptionNoSuchColumn.class)
+    public void testSizeNotExistColonne() throws ExceptionNoSuchColumn {
+        dfToTest.getCount("NotExist");
+
+    }
+
+    @Test(expected= ExceptionNoSuchColumn.class)
+    public void testAvgNotExistColonne() throws ExceptionNoSuchColumn, ExceptionString {
+
+        dfToTest.getAvg("DontExists");
+    }
+
+    @Test(expected= ExceptionNoSuchColumn.class)
+    public void testSumNotExistColonne() throws ExceptionString, ExceptionNoSuchColumn {
+        dfToTest.getSum("NotExist");
+    }
+
+    @Test(expected= ExceptionNoSuchColumn.class)
+    public void testMinNotExistColonne() throws ExceptionNoSuchColumn {
+        dfToTest.getMin("NotExist");
+    }
+
+    @Test(expected= ExceptionNoSuchColumn.class)
+    public void testMaxNotExistColonne() throws ExceptionNoSuchColumn {
+        dfToTest.getMax("NotExist");
+    }
+
+
+
     @Test(expected = ExceptionNotSameSize.class)
     public void testConstructor() throws ExceptionNotSameSize {
         ArrayList<Integer> firstCol = new ArrayList<Integer>();
@@ -136,7 +171,7 @@ public class DataFrameTest {
     }
 
     @Test
-    public void testSelectLabels() throws ExceptionNoSuchColumn {
+    public void testSelectLabels() throws ExceptionNoSuchColumn, ExceptionOutOfRange {
         System.out.println("\n\n ----TEST SELECT LABELS, AFFICHAGE DU DATAFRAME DE BASE---- \n");
         dfToTest.printAll();
 
@@ -154,7 +189,7 @@ public class DataFrameTest {
     }
 
     @Test
-    public void testSelectLines() throws ExceptionNoSuchColumn, ExceptionColBadIndex {
+    public void testSelectLines() throws ExceptionNoSuchColumn, ExceptionColBadIndex, ExceptionOutOfRange {
         System.out.println("\n\n ---- TEST SELECT LINES, AFFICHAGE DU DATAFRAME DE BASE. -----\n");
         dfToTest.printAll();
 
@@ -173,7 +208,7 @@ public class DataFrameTest {
     //////CSV PART//////
 
     @Test
-    public void testPrintCsv(){
+    public void testPrintCsv() throws ExceptionOutOfRange {
         System.out.println("\n\nTEST AFFICHAGE CSV scv1.csv\n \n");
         dfToTestCsv.printAll();
     }
@@ -241,10 +276,22 @@ public class DataFrameTest {
     }
 
     @Test
-    public void testConstructCSV() throws ExceptionNoSuchColumn {
+    public void testConstructCSV() throws ExceptionNoSuchColumn, IOException, ExceptionNotSameSize {
 
         DataFrame dt = new DataFrame("src/test/ressources/csv1.csv");
         assertEquals(5.0, dt.getMax("Note"));
+    }
 
+    @Test(expected = IOException.class)
+    public void testConstructCSVNotExist() throws IOException, ExceptionNotSameSize {
+
+        DataFrame dt = new DataFrame("src/test/ressources/csvnotexist.csv");
+    }
+
+    @Test
+    public void testCSVWithEmptyField() throws IOException, ExceptionNotSameSize
+    {
+
+        DataFrame dt = new DataFrame("src/test/ressources/csv2.csv");
     }
 }

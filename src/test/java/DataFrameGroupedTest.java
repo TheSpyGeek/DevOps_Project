@@ -97,6 +97,9 @@ public class DataFrameGroupedTest {
     }
 
 
+
+
+
     /*CES PREMIERS TESTS S'EFFECTUEUNT SUR UN GROUP BY UNIQUEMENT SUR LA COLONNE PRENOM*/
 
     @Test
@@ -109,19 +112,6 @@ public class DataFrameGroupedTest {
                 compareList(waitedResult,dfGroupedToTestGroupedByNom.count())
                         &&
                         dfGroupedToTestGroupedByNom.count().size() == waitedResult.size());
-
-
-
-
-        waitedResult = new ArrayList<Integer>();
-        waitedResult.add(2);
-        waitedResult.add(2);
-        waitedResult.add(1);
-        waitedResult.add(1);
-        assertTrue("Le résultat doit-être [2,2,1,1]",
-                compareList(waitedResult,dfGroupedToTestGroupedByNomPrenom.count())
-                        &&
-                        dfGroupedToTestGroupedByNomPrenom.count().size() == waitedResult.size());
     }
 
     @Test
@@ -135,6 +125,64 @@ public class DataFrameGroupedTest {
 
         assertTrue("Victor doit avoir 6000, Maxime 4010, Selena 13000",
                 compareList(resultWaited,dfGroupedToTestGroupedByNom.sum("RevenusInt")));
+    }
+
+
+    @Test
+    public void testAvgLineOnGroup() throws ExceptionString, ExceptionColIsGrouped {
+        ArrayList<Integer> resultWaited = new ArrayList<Integer>();
+        resultWaited.add(2000);
+        resultWaited.add(2005);
+        resultWaited.add(13000);
+        assertTrue("Victor doit avoir 2000, Maxime 2005, Selena 13000",
+                compareList(resultWaited,dfGroupedToTestGroupedByNom.avg("RevenusInt")));
+    }
+
+    @Test
+    public void testMaxLineOnGroup() throws ExceptionColIsGrouped {
+        ArrayList<Integer> resultWaited = new ArrayList<Integer>();
+        resultWaited.add(3000);
+        resultWaited.add(4000);
+        resultWaited.add(13000);
+
+        assertTrue("Victor doit avoir 3000, Maxime 4000, Selena 13000",
+                compareList(resultWaited,dfGroupedToTestGroupedByNom.max("RevenusInt")));
+    }
+
+    @Test
+    public void testMinLineOnGroup() throws ExceptionColIsGrouped {
+        ArrayList<Integer> resultWaited = new ArrayList<Integer>();
+        resultWaited.add(1000);
+        resultWaited.add(10);
+        resultWaited.add(13000);
+
+        assertTrue("Victor doit avoir 1000, Maxime 10, Selena 13000",
+                compareList(resultWaited,dfGroupedToTestGroupedByNom.min("RevenusInt"))
+        );
+    }
+
+
+
+
+    /*CES PREMIERS TESTS S'EFFECTUEUNT SUR UN GROUP BY SUR LES COLONNES NOM ET PRENOM*/
+
+    @Test
+    public void testCountLineOnGroupNomPrenom(){
+
+
+        ArrayList<Integer> waitedResult = new ArrayList<Integer>();
+        waitedResult.add(2);
+        waitedResult.add(2);
+        waitedResult.add(1);
+        waitedResult.add(1);
+        assertTrue("Le résultat doit-être [2,2,1,1]",
+                compareList(waitedResult,dfGroupedToTestGroupedByNomPrenom.count())
+                        &&
+                        dfGroupedToTestGroupedByNomPrenom.count().size() == waitedResult.size());
+    }
+
+    @Test
+    public void testSumLineOnGroupNomPrenom() throws ExceptionString, ExceptionColIsGrouped {
 
         ArrayList<Double> resultWaited2 = new ArrayList<Double>();
         resultWaited2.add(5000.0);
@@ -147,14 +195,7 @@ public class DataFrameGroupedTest {
 
 
     @Test
-    public void testAvgLineOnGroup() throws ExceptionString, ExceptionColIsGrouped {
-        ArrayList<Integer> resultWaited = new ArrayList<Integer>();
-        resultWaited.add(2000);
-        resultWaited.add(2005);
-        resultWaited.add(13000);
-        assertTrue("Victor doit avoir 2000, Maxime 2005, Selena 13000",
-                compareList(resultWaited,dfGroupedToTestGroupedByNom.avg("RevenusInt")));
-
+    public void testAvgLineOnGroupNomPrenom() throws ExceptionString, ExceptionColIsGrouped {
 
 
         ArrayList<Double> resultWaited2 = new ArrayList<Double>();
@@ -167,14 +208,7 @@ public class DataFrameGroupedTest {
     }
 
     @Test
-    public void testMaxLineOnGroup() throws ExceptionColIsGrouped {
-        ArrayList<Integer> resultWaited = new ArrayList<Integer>();
-        resultWaited.add(3000);
-        resultWaited.add(4000);
-        resultWaited.add(13000);
-
-        assertTrue("Victor doit avoir 3000, Maxime 4000, Selena 13000",
-                compareList(resultWaited,dfGroupedToTestGroupedByNom.max("RevenusInt")));
+    public void testMaxLineOnGroupNomPrenom() throws ExceptionColIsGrouped {
 
 
 
@@ -201,20 +235,11 @@ public class DataFrameGroupedTest {
 
         assertTrue("Victor Baverel doit avoir Kafka sur le rivage, Maxime Isnel L'assommoir," +
                         " Selena Gomes Le Rouge et le Noir, Victor Valdes Le Bourreau de Gaudi",
-                        compareList(resultWaited3, dfGroupedToTestGroupedByNomPrenom.max("Livres préférés")));
+                compareList(resultWaited3, dfGroupedToTestGroupedByNomPrenom.max("Livres préférés")));
     }
 
     @Test
-    public void testMinLineOnGroup() throws ExceptionColIsGrouped {
-        ArrayList<Integer> resultWaited = new ArrayList<Integer>();
-        resultWaited.add(1000);
-        resultWaited.add(10);
-        resultWaited.add(13000);
-
-        assertTrue("Victor doit avoir 1000, Maxime 10, Selena 13000",
-                compareList(resultWaited,dfGroupedToTestGroupedByNom.min("RevenusInt"))
-        );
-
+    public void testMinLineOnGroupNomPrenom() throws ExceptionColIsGrouped {
 
         ArrayList<Double> resultWaited2 = new ArrayList<Double>();
         resultWaited2.add(2000.0);
@@ -235,6 +260,45 @@ public class DataFrameGroupedTest {
         assertTrue("Victor Baverel doit avoir Bel-ami, Maxime Isnel 20 000 lieues sous les mers," +
                         " Selena Gomes Le Rouge et le Noir, Victor Valdes Le Bourreau de Gaudi",
                 compareList(resultWaited3,dfGroupedToTestGroupedByNomPrenom.min("Livres préférés")));
+    }
+
+
+
+    /*TESTS D'OPERATION ARITHMETIQUES SUR DES COLONNES STRING*/
+
+    @Test(expected = ExceptionString.class)
+    public void testAvgString() throws ExceptionString, ExceptionColIsGrouped {
+        dfGroupedToTestGroupedByNomPrenom.avg("Livres préférés");
+    }
+
+    @Test(expected = ExceptionString.class)
+    public void testSumString() throws ExceptionString, ExceptionColIsGrouped {
+        dfGroupedToTestGroupedByNomPrenom.sum("Livres préférés");
+    }
+
+
+
+
+    /*TESTS D'OPERATION SUR DES COLONNES DEJA GROUPEES SUR DES COLONNES STRING*/
+
+    @Test(expected = ExceptionColIsGrouped.class)
+    public void testAvgAlreadyGrouped() throws ExceptionString, ExceptionColIsGrouped {
+        dfGroupedToTestGroupedByNomPrenom.avg("Nom");
+    }
+
+    @Test(expected = ExceptionColIsGrouped.class)
+    public void testSumAlreadyGrouped() throws ExceptionString, ExceptionColIsGrouped {
+        dfGroupedToTestGroupedByNomPrenom.sum("Prénom");
+    }
+
+    @Test(expected = ExceptionColIsGrouped.class)
+    public void testMinAlreadyGrouped() throws ExceptionString, ExceptionColIsGrouped {
+        dfGroupedToTestGroupedByNomPrenom.min("Nom");
+    }
+
+    @Test(expected = ExceptionColIsGrouped.class)
+    public void testMaxAlreadyGrouped() throws ExceptionString, ExceptionColIsGrouped {
+        dfGroupedToTestGroupedByNomPrenom.max("Prénom");
     }
 
     /**
