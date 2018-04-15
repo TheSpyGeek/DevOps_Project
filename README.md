@@ -27,7 +27,7 @@
 
 ### Contraintes imposées par notre implémentation
 
-Toutes les colonnes d'un DataFrame doivent avoir le même nombre d'éléments.
+Toutes les colonnes d'un DataFrame doivent avoir le même nombre d'éléments. Aussi, un fichier CSV ne peut pas avoir de cases vides.
 
 Impossible de réaliser une opération d'aggrégation sur une des colonnes groupées (dans le cas d'un GroupBy)
 
