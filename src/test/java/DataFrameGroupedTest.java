@@ -10,6 +10,7 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 public class DataFrameGroupedTest {
@@ -318,6 +319,52 @@ public class DataFrameGroupedTest {
         }
         return true;
     }
+
+    @Test
+    public void testPrintAvg() throws ExceptionString, ExceptionColIsGrouped {
+        assertEquals("\tPrénom\tNom\tAVG RevenusInt\n" +
+                "\tSelena\tGomes\t13000\n" +
+                "\tMaxime\tIsnel\t2005\n" +
+                "\tVictor\tBaverel\t2500\n" +
+                "\tVictor\tValdes\t1000\n",dfGroupedToTestGroupedByNomPrenom.avgPrint("RevenusInt") );
+    }
+
+    @Test
+    public void testPrintMin() throws ExceptionString, ExceptionColIsGrouped {
+        assertEquals("\tPrénom\tNom\tMIN RevenusInt\n" +
+                "\tVictor\tBaverel\t1000\n" +
+                "\tMaxime\tIsnel\t10\n" +
+                "\tSelena\tGomes\t13000\n", dfGroupedToTestGroupedByNom.minPrint("RevenusInt"));
+    }
+
+    @Test
+    public void testPrintMax() throws ExceptionString, ExceptionColIsGrouped {
+        assertEquals("\tPrénom\tNom\tMAX RevenusInt\n" +
+                "\tVictor\tBaverel\t3000\n" +
+                "\tMaxime\tIsnel\t4000\n" +
+                "\tSelena\tGomes\t13000\n", dfGroupedToTestGroupedByNom.maxPrint("RevenusInt"));
+    }
+
+
+    @Test
+    public void testPrintSum() throws ExceptionString, ExceptionColIsGrouped {
+        assertEquals("\tPrénom\tNom\tSUM RevenusInt\n" +
+                "\tSelena\tGomes\t13000\n" +
+                "\tMaxime\tIsnel\t4010\n" +
+                "\tVictor\tBaverel\t5000\n" +
+                "\tVictor\tValdes\t1000\n", dfGroupedToTestGroupedByNomPrenom.sumPrint("RevenusInt"));
+    }
+
+    @Test
+    public void testPrintCount() throws ExceptionString, ExceptionColIsGrouped {
+        assertEquals("\tPrénom\tNom\tCOUNT\n" +
+                "\tSelena\tGomes\t1\n" +
+                "\tMaxime\tIsnel\t2\n" +
+                "\tVictor\tBaverel\t2\n" +
+                "\tVictor\tValdes\t1\n", dfGroupedToTestGroupedByNomPrenom.countPrint());
+    }
+
+
 
 
 }

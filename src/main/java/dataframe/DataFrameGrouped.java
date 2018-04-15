@@ -63,61 +63,68 @@ public class DataFrameGrouped {
     }
 
 
-    public void printColGrouped(){
-        System.out.print("\t");
+    public String printColGrouped(){
+        String colGrouped = "\t";
         for(int i = 0; i<colGroupedName.size(); i++){
-            System.out.print(colGroupedName.get(i)+"\t");
+            colGrouped += colGroupedName.get(i)+"\t";
         }
+        return colGrouped;
     }
 
-    public void printValuesGrouped(ArrayList<? extends Comparable> values){
-        System.out.println();
+    public String printValuesGrouped(ArrayList<? extends Comparable> values){
+        String valuesGrouped = "";
         for(int i = 0; i<nbLine; i++){
-            System.out.print(i+"\t");
+            valuesGrouped += "\t";
             for(int j = 0; j<colGroupedName.size(); j++){
-                System.out.print(setOfCol.get(colGroupedName.get(j)).printGrouped(i)+"\t");
+                valuesGrouped += setOfCol.get(colGroupedName.get(j)).printGrouped(i)+"\t";
             }
-            System.out.print(values.get(i));
-            System.out.println();
+            valuesGrouped += values.get(i) + "\n";
         }
+        return valuesGrouped;
     }
 
 
-    public void countPrint(){
+    public String countPrint(){
+        String count = "";
         ArrayList<Integer> values = count();
-        printColGrouped();
-        System.out.print("COUNT");
-        printValuesGrouped(values);
+        count += printColGrouped();
+        count += "COUNT\n";
+        count += printValuesGrouped(values);
+        return count;
     }
 
 
 
-    public void sumPrint(String label) throws ExceptionColIsGrouped, ExceptionString {
+    public String sumPrint(String label) throws ExceptionColIsGrouped, ExceptionString {
         ArrayList<? extends Comparable> values = sum(label);
-        printColGrouped();
-        System.out.print("SUM "+label);
-        printValuesGrouped(values);
+        String sumP = printColGrouped();
+        sumP += "SUM "+label+"\n";
+        sumP += printValuesGrouped(values);
+        return sumP;
     }
 
-    public void avgPrint(String label) throws ExceptionColIsGrouped, ExceptionString {
+    public String avgPrint(String label) throws ExceptionColIsGrouped, ExceptionString {
         ArrayList<? extends Comparable> values = avg(label);
-        printColGrouped();
-        System.out.print("AVG "+label);
-        printValuesGrouped(values);
+        String avgP = printColGrouped();
+        avgP += "AVG "+label+"\n";
+        avgP += printValuesGrouped(values);
+        return avgP;
     }
 
-    public void maxPrint(String label) throws ExceptionColIsGrouped {
+    public String maxPrint(String label) throws ExceptionColIsGrouped {
         ArrayList<? extends Comparable> values = max(label);
-        printColGrouped();
-        System.out.print("MAX "+label);
-        printValuesGrouped(values);
+        String maxP = printColGrouped();
+        maxP += "MAX "+label+"\n";
+        maxP += printValuesGrouped(values);
+        return maxP;
     }
 
-    public void minPrint(String label) throws ExceptionColIsGrouped {
+    public String minPrint(String label) throws ExceptionColIsGrouped {
         ArrayList<? extends Comparable> values = min(label);
-        printColGrouped();
-        System.out.print("MIN "+label);
-        printValuesGrouped(values);
+        String minP = printColGrouped();
+        minP += "MIN "+label +"\n";
+        minP += printValuesGrouped(values);
+        return minP;
     }
 
 }

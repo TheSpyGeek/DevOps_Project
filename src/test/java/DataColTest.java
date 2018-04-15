@@ -178,4 +178,28 @@ public class DataColTest {
         datacol.getAvg();
     }
 
+    @Test
+    public void testMinCol(){
+        ArrayList<Integer> data = new ArrayList<>();
+        data.add(1500);
+        data.add(2000);
+        data.add(100);
+        data.add(500);
+
+        DataCol datacol = new DataCol("Int", data);
+        assertEquals(100, datacol.getMin());
+    }
+
+    @Test
+    public void testMaxCol(){
+        ArrayList<Integer> data = new ArrayList<>();
+        data.add(1500);
+        data.add(2000);
+        data.add(100);
+        data.add(500);
+
+        DataCol datacol = new DataCol("Int", data);
+        assertEquals(2000, datacol.getMax());
+    }
+
 }
