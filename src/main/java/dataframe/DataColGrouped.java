@@ -116,4 +116,8 @@ class DataColGrouped {
             return min;
         }
     }
+
+    public String printGrouped(int i) {
+        return String.valueOf(data.get(i).get(0));
+    }
 }
