@@ -205,6 +205,8 @@ public class DataFrameGroupedTest {
         resultWaited2.add(1000.0);
         assertTrue("Victor Baverel doit avoir 2500, Maxime Isnel 2005, Selena Gomes 13000, Victor Valdes 1000",
                 compareList(resultWaited2,dfGroupedToTestGroupedByNomPrenom.avg("RevenusDouble")));
+
+        dfGroupedToTestGroupedByNomPrenom.avgPrint("RevenusDouble");
     }
 
     @Test
