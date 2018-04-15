@@ -173,7 +173,7 @@ public class DataFrameTest {
     }
 
     @Test
-    public void testSelectLabels() throws ExceptionNoSuchColumn, ExceptionNotSameSize, ExceptionOutOfRange {
+    public void testSelectLabels() throws ExceptionNoSuchColumn, ExceptionNotSameSize {
         ArrayList cloneTestSelectLabelsData = new ArrayList();
         ArrayList<String> cloneTestSelectLabelsDataCol1 = new ArrayList<String>();
         cloneTestSelectLabelsDataCol1.add("Victor");
@@ -191,9 +191,8 @@ public class DataFrameTest {
         DataFrame dfToCompare = new DataFrame(labels,cloneTestSelectLabelsData);
         DataFrame dfSelect = dfToTest.selectFromLabel(labels);
 
-        //TODO: REIMPLEMENTER EQUALS POUR DATAFRAME
-        /*assertTrue("Les dataframes doivent-être similaires (Selection Sur la colonne Mot)! ",
-                dfSelect.equals(dfToCompare));*/
+        assertTrue("Les dataframes doivent-être similaires (Selection Sur la colonne Mot)! ",
+                dfSelect.equals(dfToCompare));
 
         labels.add("Index");
 
@@ -210,10 +209,43 @@ public class DataFrameTest {
 
         dfToCompare = new DataFrame(labels,cloneTestSelectLabelsData);
 
-        //TODO: REIMPLEMENTER EQUALS POUR DATAFRA
-        /*
         assertTrue("Les dataframes doivent-être similaires (Selection Sur la colonne Mot et Index)! ",
-                dfSelect.equals(dfToCompare));*/
+                dfSelect.equals(dfToCompare));
+    }
+
+    /**
+     * Compare deux dataframes inégaux.
+     */
+    @Test
+    public void testEqualsDataFrame(){
+        assertFalse("Les dataframes sont inégaux!",dfToTest.equals(dfToTestCsv));
+    }
+
+    @Test
+    public void testSelectLinesCompare1() throws IOException, ExceptionNotSameSize, ExceptionOutOfRange {
+        DataFrame dfCsvFail = new DataFrame("src/test/ressources/csv2.csv");
+
+        DataFrame dfCsvFailSelect = dfCsvFail.selectFromLine(1,1);
+
+        DataFrame dfSelect = dfToTest.selectFromLine(1,1);
+
+        assertFalse("Ces lignes ne sont pas égales en type!",dfCsvFailSelect.equals(dfSelect));
+    }
+
+    @Test
+    public void testSelectLinesCompare2() throws IOException, ExceptionNotSameSize, ExceptionOutOfRange {
+        DataFrame dfCsvFail = new DataFrame("src/test/ressources/csv3.csv");
+
+        DataFrame dfCsvFailSelect = dfCsvFail.selectFromLine(1,1);
+
+        DataFrame dfSelect = dfToTest.selectFromLine(1,1);
+
+        assertTrue("Ces lignes sont égales!",dfCsvFailSelect.equals(dfSelect));
+    }
+
+    @Test(expected = IOException.class)
+    public void createDfFromInexistantFile() throws IOException, ExceptionNotSameSize {
+        DataFrame dataFrame = new DataFrame("FAIL");
     }
 
 
@@ -254,12 +286,6 @@ public class DataFrameTest {
 
 
     //////CSV PART//////
-
-    @Test
-    public void testPrintCsv() throws ExceptionOutOfRange {
-        System.out.println("\n\nTEST AFFICHAGE CSV scv1.csv\n \n");
-        //dfToTestCsv.printAll();
-    }
 
     @Test
     public void testSizeCsv() throws ExceptionNoSuchColumn {
@@ -336,10 +362,10 @@ public class DataFrameTest {
         DataFrame dt = new DataFrame("src/test/ressources/csvnotexist.csv");
     }
 
-    @Test
-    public void testCSVWithEmptyField() throws IOException, ExceptionNotSameSize
+    @Test(expected = ExceptionNotSameSize.class)
+    public void testCSVWithEmptyFields() throws IOException, ExceptionNotSameSize
     {
 
-        DataFrame dt = new DataFrame("src/test/ressources/csv2.csv");
+        DataFrame dt = new DataFrame("src/test/ressources/csv4.csv");
     }
 }

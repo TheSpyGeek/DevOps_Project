@@ -49,32 +49,31 @@ public class DataFrame {
         ArrayList<String> labels = new ArrayList<String>();
         ArrayList<Integer> types = new ArrayList<Integer>();
         ArrayList<ArrayList<String>> datas = new ArrayList<ArrayList<String>>();
-        int countNbElementByLine = -1;
         try  {
             BufferedReader br = new BufferedReader(new FileReader(csvPath));
             while ((line = br.readLine()) != null) {
-
                 String[] lineContent = line.split(separator);
-
                 for (int i=0; i<lineContent.length; i++){
-                    if(lineContent[i].equals(""))
-                        lineContent[i] = "0";
                     //On part du principe que le premier élément de la colonne contient le label
                     if(firstPass){
                         labels.add(lineContent[i]);
                         datas.add(new ArrayList<String>());
                         types.add(0);
                     }else{//Puis on insert dans les bonnes colonnes.
-                        datas.get(i).add(lineContent[i]);
+                        if(labels.size()==lineContent.length){
+                            datas.get(i).add(lineContent[i]);
 
-                        if(parseInteger(lineContent[i])!=null){
-                            types.set(i,changeType(types.get(i),1));
-                        }
-                        else if(parseDouble(lineContent[i])!=null){
-                            types.set(i,changeType(types.get(i),2));
-                        }
-                        else{
-                            types.set(i,3);
+                            if(parseInteger(lineContent[i])!=null){
+                                types.set(i,changeType(types.get(i),1));
+                            }
+                            else if(parseDouble(lineContent[i])!=null){
+                                types.set(i,changeType(types.get(i),2));
+                            }
+                            else{
+                                types.set(i,3);
+                            }
+                        }else{
+                            throw new ExceptionNotSameSize();
                         }
                     }
                 }
@@ -146,7 +145,7 @@ public class DataFrame {
      * @param end   Indique quand arrêter l'affichage. Si end = -1, alors tout afficher.
      */
     public void print(int begin, int end) throws ExceptionOutOfRange {
-        if(end>=begin&&begin>=0&&end<(setOfCol.get(setOfCol.keySet().iterator().next()).getSize())&&end>0)
+        if(end>=begin&&begin>=0&&end<(setOfCol.get(setOfCol.keySet().iterator().next()).getSize())&&end>=0)
         {
             System.out.print("\t");
             Iterator i = setOfCol.keySet().iterator();
@@ -291,4 +290,22 @@ public class DataFrame {
         return new DataFrameGrouped(labels,colToGroup,colGrouped);
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if(o instanceof DataFrame){
+            DataFrame dfComp = (DataFrame)o;
+            if(dfComp.setOfCol.size()==setOfCol.size()){
+                Iterator i = setOfCol.keySet().iterator();
+                while(i.hasNext()){
+                    String s = (String) i.next();
+                    boolean eq=setOfCol.get(s).equals(dfComp.setOfCol.get(s));
+                    if(eq==false){
+                        return false;
+                    }
+                }
+                return true;
+            }
+        }
+        return false;
+    }
 }

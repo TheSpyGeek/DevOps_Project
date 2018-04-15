@@ -139,7 +139,19 @@ public class DataCol
         return new DataColGrouped(newCell);
     }
 
-    public int getNbLine() {
-        return data.size();
+    @Override
+    public boolean equals(Object o) {
+        if(o instanceof DataCol){
+            DataCol dc = (DataCol)o;
+            if(dc.getData().size()==data.size()){
+                for(int i = 0; i<data.size(); i++){
+                    if(data.get(i).equals(dc.getData().get(i))==false){
+                        return false;
+                    }
+                }
+                return true;
+            }
+        }
+        return false;
     }
 }
