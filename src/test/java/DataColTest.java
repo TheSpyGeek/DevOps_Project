@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import dataframe.*;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 public class DataColTest {
@@ -140,7 +141,35 @@ public class DataColTest {
 
         DataCol datacol = new DataCol("Prenom", data);
 
-        DataCol newDatacol = datacol.selectByLine(2,7);
+        DataCol newDatacol = datacol.selectByLine(5,2);
+
+    }
+
+    @Test(expected = ExceptionOutOfRange.class)
+    public void testSelectLineOutOfBoundIndex3() throws ExceptionOutOfRange {
+        ArrayList<String> data = new ArrayList<String>();
+        data.add("Victor");
+        data.add("Maxime");
+        data.add("Thomas");
+        data.add("Antoine");
+
+        DataCol datacol = new DataCol("Prenom", data);
+
+        DataCol newDatacol = datacol.selectByLine(-1,2);
+
+    }
+
+    @Test(expected = ExceptionOutOfRange.class)
+    public void testSelectLineOutOfBoundIndex4() throws ExceptionOutOfRange {
+        ArrayList<String> data = new ArrayList<String>();
+        data.add("Victor");
+        data.add("Maxime");
+        data.add("Thomas");
+        data.add("Antoine");
+
+        DataCol datacol = new DataCol("Prenom", data);
+
+        DataCol newDatacol = datacol.selectByLine(2,-2);
 
     }
 
@@ -200,6 +229,40 @@ public class DataColTest {
 
         DataCol datacol = new DataCol("Int", data);
         assertEquals(2000, datacol.getMax());
+    }
+
+    @Test
+    public void testEqualsNotSameType(){
+        ArrayList<Integer> data = new ArrayList<>();
+        data.add(1500);
+        data.add(2000);
+        data.add(100);
+        data.add(500);
+
+        DataCol datacol = new DataCol("Int", data);
+
+
+        assertFalse(datacol.equals("Hello"));
+    }
+
+    @Test
+    public void testEqualsNotSameSize(){
+        ArrayList<Integer> data = new ArrayList<>();
+        data.add(1500);
+        data.add(2000);
+        data.add(100);
+        data.add(500);
+
+        DataCol datacol = new DataCol("Int", data);
+
+        ArrayList<Integer> data2 = new ArrayList<>();
+        data2.add(1500);
+        data2.add(2000);
+
+        DataCol datacol2 = new DataCol("Int", data2);
+
+
+        assertFalse(datacol.equals(datacol2));
     }
 
 }
