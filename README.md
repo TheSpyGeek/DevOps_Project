@@ -1,6 +1,4 @@
-# Projet DevOps [![codecov](https://codecov.io/gh/TheSpyGeek/DevOps_Project/branch/master/graph/badge.svg?token=gK8JynLGcl)](https://codecov.io/gh/TheSpyGeek/DevOps_Project) [![Build Status](https://travis-ci.com/TheSpyGeek/DevOps_Project.svg?token=AmtD253suzrd44ZDSspK&branch=master)](https://travis-ci.com/TheSpyGeek/DevOps_Project)
-
-#Pandas Pour Java
+# Projet DevOps Pandas Pour Java [![codecov](https://codecov.io/gh/TheSpyGeek/DevOps_Project/branch/master/graph/badge.svg?token=gK8JynLGcl)](https://codecov.io/gh/TheSpyGeek/DevOps_Project) [![Build Status](https://travis-ci.com/TheSpyGeek/DevOps_Project.svg?token=AmtD253suzrd44ZDSspK&branch=master)](https://travis-ci.com/TheSpyGeek/DevOps_Project)
 
 ### Réalisé par Maxime Isnel et Victor Baverel
 
@@ -42,6 +40,7 @@ Utilisation de Cobertura pour la couverture de code.
 Faire mvn site pour générer le site relatif à la couverture de code de nos tests. (le rapport se trouve dans target/site)
 
 Utilisation du site codecov.io nous permettant d'avoir un suivi en ligne de nos rapports de couverture de code.
+
 De plus, l'utilisation d'un site externe nous a aussi permis de bénéficier du badge de couverture de code pour github (non négligeable :-) )
 
 
