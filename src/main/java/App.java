@@ -1,9 +1,6 @@
 import dataframe.DataFrame;
 import dataframe.DataFrameGrouped;
-import myExceptions.ExceptionColIsGrouped;
-import myExceptions.ExceptionNoSuchColumn;
-import myExceptions.ExceptionNotSameSize;
-import myExceptions.ExceptionString;
+import myExceptions.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -16,6 +13,14 @@ class App {
 
             ArrayList<String> labels = df.getLabel();
 
+            try {
+                System.out.println("--AFFICHAGE COMPLET--\n");
+                System.out.print(df.printAll());
+            } catch (ExceptionOutOfRange exceptionOutOfRange) {
+                exceptionOutOfRange.printStackTrace();
+            }
+            System.out.println("\n--OPERATIONS SUR LE DATAFRAME--\n");
+            System.out.println();
             System.out.println("Average:");
             printLabel(labels);
             for(String label: labels){
@@ -84,9 +89,8 @@ class App {
 
 
                     System.out.println("Average (Troisième Colonne):");
-                    printLabel(labels);
                     try {
-                        System.out.print(dfG.avgPrint(labels.get(2))+"\t");
+                        System.out.print(dfG.avgPrint(labels.get(2)));
                     } catch (ExceptionString exceptionString) {
                         System.out.print("Mauvais Type.\t");
                     } catch (ExceptionColIsGrouped exceptionColIsGrouped) {
@@ -95,32 +99,28 @@ class App {
                     System.out.println("\n");
 
                     System.out.println("Maximum (Troisième Colonne):");
-                    printLabel(labels);
                     try {
-                        System.out.print(dfG.maxPrint(labels.get(2))+"\t");
+                        System.out.print(dfG.maxPrint(labels.get(2)));
                     } catch (ExceptionColIsGrouped exceptionColIsGrouped) {
                         exceptionColIsGrouped.printStackTrace();
                     }
                     System.out.println("\n");
 
                     System.out.println("Minimum (Troisième Colonne):");
-                    printLabel(labels);
                     try {
-                        System.out.print(dfG.minPrint(labels.get(2))+"\t");
+                        System.out.print(dfG.minPrint(labels.get(2)));
                     } catch (ExceptionColIsGrouped exceptionColIsGrouped) {
                         exceptionColIsGrouped.printStackTrace();
                     }
                     System.out.println("\n");
 
                     System.out.println("Count:");
-                    printLabel(labels);
                     System.out.print(dfG.countPrint()+"\t");
                     System.out.println("\n");
 
                     System.out.println("Sum (Troisième Colonne):");
-                    printLabel(labels);
                     try {
-                        System.out.print(dfG.sumPrint(labels.get(2))+"\t");
+                        System.out.print(dfG.sumPrint(labels.get(2)));
                     } catch (ExceptionString exceptionString) {
                         System.out.print("Mauvais Type.\t");
                     } catch (ExceptionColIsGrouped exceptionColIsGrouped) {

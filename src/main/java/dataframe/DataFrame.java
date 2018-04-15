@@ -148,15 +148,15 @@ public class DataFrame {
         String s = "";
         if(end>=begin&&begin>=0&&end<(setOfCol.get(setOfCol.keySet().iterator().next()).getSize())&&end>=0)
         {
-            s+="\t";
+            s+="\t\t\t";
             Iterator i = setOfCol.keySet().iterator();
             while (i.hasNext()){
-                s+=setOfCol.get(i.next()).getLabel()+"\t";
+                s+=setOfCol.get(i.next()).getLabel()+"\t\t\t";
             }
             s+="\n";
 
                 while(begin<=end ){
-                    s+=begin+"\t";
+                    s+=begin+"\t\t\t";
                     i = setOfCol.keySet().iterator();
                     while (i.hasNext()){
                         s+=setOfCol.get(i.next()).print(begin);
@@ -180,13 +180,13 @@ public class DataFrame {
      * @param end Borne supérieure
      * @return Le sous-ensemble du DataFrame sélectionné via les lignes
      */
-    public DataFrame selectFromLine(int begin, int end) throws ExceptionOutOfRange {
+    public DataFrame selectFromLine(ArrayList<Integer> linesToSelect) throws ExceptionOutOfRange {
         LinkedHashMap<String, DataCol> newSetOfCol = new LinkedHashMap<String, DataCol>();
 
         Iterator i = setOfCol.keySet().iterator();
         while(i.hasNext()){
             String s = (String) i.next();
-            newSetOfCol.put(s,setOfCol.get(s).selectByLine(begin,end));
+            newSetOfCol.put(s,setOfCol.get(s).selectByLine(linesToSelect));
         }
 
         return new DataFrame(newSetOfCol);

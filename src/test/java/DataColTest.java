@@ -84,7 +84,11 @@ public class DataColTest {
 
         DataCol datacol = new DataCol("Prenom", data);
 
-        DataCol newDatacol = datacol.selectByLine(2,3);
+        ArrayList<Integer> linesSelect = new ArrayList<Integer>();
+        linesSelect.add(2);
+        linesSelect.add(3);
+
+        DataCol newDatacol = datacol.selectByLine(linesSelect);
 
         assertEquals(2, newDatacol.getSize());
         assertEquals("Prenom", newDatacol.getLabel());
@@ -99,12 +103,15 @@ public class DataColTest {
         data.add("Antoine");
 
         DataCol datacol = new DataCol("Prenom", data);
+        ArrayList<Integer> linesSelect = new ArrayList<Integer>();
+        linesSelect.add(-2);
+        linesSelect.add(3);
 
-        DataCol newDatacol = datacol.selectByLine(-2,3);
+
+        DataCol newDatacol = datacol.selectByLine(linesSelect);
 
     }
 
-    @Test(expected = ExceptionOutOfRange.class)
     public void testSelectLineInversedIndex() throws ExceptionOutOfRange {
         ArrayList<String> data = new ArrayList<String>();
         data.add("Victor");
@@ -113,7 +120,10 @@ public class DataColTest {
 
         DataCol datacol = new DataCol("Prenom", data);
 
-        DataCol newDatacol = datacol.selectByLine(2,1);
+        ArrayList<Integer> linesSelect = new ArrayList<Integer>();
+        linesSelect.add(2);
+        linesSelect.add(1);
+        DataCol newDatacol = datacol.selectByLine(linesSelect);
 
     }
 
@@ -127,7 +137,11 @@ public class DataColTest {
 
         DataCol datacol = new DataCol("Prenom", data);
 
-        DataCol newDatacol = datacol.selectByLine(2,5);
+        ArrayList<Integer> linesSelect = new ArrayList<Integer>();
+        linesSelect.add(2);
+        linesSelect.add(5);
+
+        DataCol newDatacol = datacol.selectByLine(linesSelect);
 
     }
 
@@ -141,7 +155,11 @@ public class DataColTest {
 
         DataCol datacol = new DataCol("Prenom", data);
 
-        DataCol newDatacol = datacol.selectByLine(5,2);
+        ArrayList<Integer> linesSelect = new ArrayList<Integer>();
+        linesSelect.add(5);
+        linesSelect.add(2);
+
+        DataCol newDatacol = datacol.selectByLine(linesSelect);
 
     }
 
@@ -155,21 +173,11 @@ public class DataColTest {
 
         DataCol datacol = new DataCol("Prenom", data);
 
-        DataCol newDatacol = datacol.selectByLine(-1,2);
+        ArrayList<Integer> linesSelect = new ArrayList<Integer>();
+        linesSelect.add(-1);
+        linesSelect.add(2);
 
-    }
-
-    @Test(expected = ExceptionOutOfRange.class)
-    public void testSelectLineOutOfBoundIndex4() throws ExceptionOutOfRange {
-        ArrayList<String> data = new ArrayList<String>();
-        data.add("Victor");
-        data.add("Maxime");
-        data.add("Thomas");
-        data.add("Antoine");
-
-        DataCol datacol = new DataCol("Prenom", data);
-
-        DataCol newDatacol = datacol.selectByLine(2,-2);
+        DataCol newDatacol = datacol.selectByLine(linesSelect);
 
     }
 

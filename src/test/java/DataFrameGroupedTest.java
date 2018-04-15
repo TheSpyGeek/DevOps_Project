@@ -322,46 +322,46 @@ public class DataFrameGroupedTest {
 
     @Test
     public void testPrintAvg() throws ExceptionString, ExceptionColIsGrouped {
-        assertEquals("\tPrénom\tNom\tAVG RevenusInt\n" +
-                "\tSelena\tGomes\t13000\n" +
-                "\tMaxime\tIsnel\t2005\n" +
-                "\tVictor\tBaverel\t2500\n" +
-                "\tVictor\tValdes\t1000\n",dfGroupedToTestGroupedByNomPrenom.avgPrint("RevenusInt") );
+        assertEquals("Prénom\t\t\tNom\t\t\tAVG RevenusInt\n" +
+                "Selena\t\t\tGomes\t\t\t13000\n" +
+                "Maxime\t\t\tIsnel\t\t\t2005\n" +
+                "Victor\t\t\tBaverel\t\t\t2500\n" +
+                "Victor\t\t\tValdes\t\t\t1000\n",dfGroupedToTestGroupedByNomPrenom.avgPrint("RevenusInt") );
     }
 
     @Test
     public void testPrintMin() throws ExceptionString, ExceptionColIsGrouped {
-        assertEquals("\tPrénom\tNom\tMIN RevenusInt\n" +
-                "\tVictor\tBaverel\t1000\n" +
-                "\tMaxime\tIsnel\t10\n" +
-                "\tSelena\tGomes\t13000\n", dfGroupedToTestGroupedByNom.minPrint("RevenusInt"));
+        assertEquals("Prénom\t\t\tNom\t\t\tMIN RevenusInt\n" +
+                "Victor\t\t\tBaverel\t\t\t1000\n" +
+                "Maxime\t\t\tIsnel\t\t\t10\n" +
+                "Selena\t\t\tGomes\t\t\t13000\n", dfGroupedToTestGroupedByNom.minPrint("RevenusInt"));
     }
 
     @Test
     public void testPrintMax() throws ExceptionString, ExceptionColIsGrouped {
-        assertEquals("\tPrénom\tNom\tMAX RevenusInt\n" +
-                "\tVictor\tBaverel\t3000\n" +
-                "\tMaxime\tIsnel\t4000\n" +
-                "\tSelena\tGomes\t13000\n", dfGroupedToTestGroupedByNom.maxPrint("RevenusInt"));
+        assertEquals("Prénom\t\t\tNom\t\t\tMAX RevenusInt\n" +
+                "Victor\t\t\tBaverel\t\t\t3000\n" +
+                "Maxime\t\t\tIsnel\t\t\t4000\n" +
+                "Selena\t\t\tGomes\t\t\t13000\n", dfGroupedToTestGroupedByNom.maxPrint("RevenusInt"));
     }
 
 
     @Test
     public void testPrintSum() throws ExceptionString, ExceptionColIsGrouped {
-        assertEquals("\tPrénom\tNom\tSUM RevenusInt\n" +
-                "\tSelena\tGomes\t13000\n" +
-                "\tMaxime\tIsnel\t4010\n" +
-                "\tVictor\tBaverel\t5000\n" +
-                "\tVictor\tValdes\t1000\n", dfGroupedToTestGroupedByNomPrenom.sumPrint("RevenusInt"));
+        assertEquals("Prénom\t\t\tNom\t\t\tSUM RevenusInt\n" +
+                "Selena\t\t\tGomes\t\t\t13000\n" +
+                "Maxime\t\t\tIsnel\t\t\t4010\n" +
+                "Victor\t\t\tBaverel\t\t\t5000\n" +
+                "Victor\t\t\tValdes\t\t\t1000\n", dfGroupedToTestGroupedByNomPrenom.sumPrint("RevenusInt"));
     }
 
     @Test
     public void testPrintCount() throws ExceptionString, ExceptionColIsGrouped {
-        assertEquals("\tPrénom\tNom\tCOUNT\n" +
-                "\tSelena\tGomes\t1\n" +
-                "\tMaxime\tIsnel\t2\n" +
-                "\tVictor\tBaverel\t2\n" +
-                "\tVictor\tValdes\t1\n", dfGroupedToTestGroupedByNomPrenom.countPrint());
+        assertEquals("Prénom\t\t\tNom\t\t\tCOUNT\n" +
+                "Selena\t\t\tGomes\t\t\t1\n" +
+                "Maxime\t\t\tIsnel\t\t\t2\n" +
+                "Victor\t\t\tBaverel\t\t\t2\n" +
+                "Victor\t\t\tValdes\t\t\t1\n", dfGroupedToTestGroupedByNomPrenom.countPrint());
     }
 
 }

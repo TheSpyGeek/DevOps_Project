@@ -31,7 +31,7 @@ public class DataCol
      * @param i index de l'élément à afficher.
      */
     public String print(int i) {
-        return data.get(i).toString()+"\t";
+        return data.get(i).toString()+"\t\t\t";
     }
 
     /**
@@ -52,15 +52,14 @@ public class DataCol
      *
      * @return une nouvelle colonne avec les lignes demandées.
      */
-    public DataCol selectByLine(int begin, int end) throws ExceptionOutOfRange {
-
-        if(begin < 0 || end < 0 || end < begin || end >= getSize()){
-            throw new ExceptionOutOfRange();
-        }
+    public DataCol selectByLine(ArrayList<Integer> linesSelect) throws ExceptionOutOfRange {
 
         ArrayList<Comparable> newCol = new ArrayList<Comparable>();
-        for(int i = begin; i <= end; i++){
-            newCol.add(data.get(i));
+        for(int i = 0; i < linesSelect.size(); i++){
+            if(linesSelect.get(i) < 0 || linesSelect.get(i) >= getSize()){
+                throw new ExceptionOutOfRange();
+            }
+            newCol.add(data.get(linesSelect.get(i)));
         }
         return new DataCol(this.label,newCol);
     }

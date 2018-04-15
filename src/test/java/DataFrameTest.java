@@ -250,23 +250,57 @@ public class DataFrameTest {
     public void testSelectLinesCompare1() throws IOException, ExceptionNotSameSize, ExceptionOutOfRange {
         DataFrame dfCsvFail = new DataFrame("src/test/ressources/csv2.csv");
 
-        DataFrame dfCsvFailSelect = dfCsvFail.selectFromLine(1,1);
+        ArrayList<Integer> lineToSelect = new ArrayList<Integer>();
+        lineToSelect.add(1);
+        DataFrame dfCsvFailSelect = dfCsvFail.selectFromLine(lineToSelect);
 
-        DataFrame dfSelect = dfToTest.selectFromLine(1,1);
+        DataFrame dfSelect = dfToTest.selectFromLine(lineToSelect);
 
         assertFalse("Ces lignes ne sont pas égales en type!",dfCsvFailSelect.equals(dfSelect));
     }
 
+
     @Test
-    public void testSelectLinesCompare2() throws IOException, ExceptionNotSameSize, ExceptionOutOfRange {
-        DataFrame dfCsvFail = new DataFrame("src/test/ressources/csv3.csv");
+    public void testSelectLines() throws IOException, ExceptionNotSameSize, ExceptionOutOfRange {
+        ArrayList<Integer> lineToSelect = new ArrayList<Integer>();
+        lineToSelect.add(0);
+        lineToSelect.add(3);
+        lineToSelect.add(5);
 
-        DataFrame dfCsvFailSelect = dfCsvFail.selectFromLine(1,1);
 
-        DataFrame dfSelect = dfToTest.selectFromLine(1,1);
 
-        assertTrue("Ces lignes sont égales!",dfCsvFailSelect.equals(dfSelect));
+        col = new ArrayList<ArrayList<? extends Comparable>>();
+        labels = new ArrayList<String>();
+        ArrayList<Integer> firstCol = new ArrayList<Integer>();
+        firstCol.add(-1);
+        firstCol.add(2);
+        firstCol.add(8);
+
+        ArrayList<Double>  secondCol = new ArrayList<Double>();
+        secondCol.add(1.0);
+        secondCol.add(0.4);
+        secondCol.add(0.1);
+
+        ArrayList<String>  thirdCol = new ArrayList<String>();
+        thirdCol.add("Victor");
+        thirdCol.add("Vaccination");
+        thirdCol.add("Zébulon!");
+
+
+        DataFrame dfSelect = dfToTest.selectFromLine(lineToSelect);
+
+        col.add(firstCol);
+        col.add(secondCol);
+        col.add(thirdCol);
+
+        labels.add("Index");
+        labels.add("Note");
+        labels.add("Mot");
+        DataFrame dfCompare = new DataFrame(labels,col);
+
+        assertTrue("Ces lignes sont égales",dfSelect.equals(dfCompare));
     }
+
 
     @Test(expected = IOException.class)
     public void createDfFromInexistantFile() throws IOException, ExceptionNotSameSize {
@@ -294,17 +328,28 @@ public class DataFrameTest {
 
     @Test(expected = ExceptionOutOfRange.class)
     public void testSelectLinesOutOfRange1() throws ExceptionOutOfRange {
-        DataFrame df = dfToTest.selectFromLine(4,0);
+        ArrayList<Integer> linesToSelect = new ArrayList<Integer>();
+        linesToSelect.add(-1);
+        DataFrame df = dfToTest.selectFromLine(linesToSelect);
     }
 
     @Test(expected = ExceptionOutOfRange.class)
     public void testSelectLinesOutOfRange2() throws ExceptionOutOfRange {
-        DataFrame df = dfToTest.selectFromLine(-1,12);
+        ArrayList<Integer> linesToSelect = new ArrayList<Integer>();
+        linesToSelect.add(30);
+        DataFrame df = dfToTest.selectFromLine(linesToSelect);
     }
 
     @Test(expected = ExceptionOutOfRange.class)
     public void testSelectLinesOutOfRange3() throws ExceptionOutOfRange {
-        DataFrame df = dfToTest.selectFromLine(0,12);
+        ArrayList<Integer> linesToSelect = new ArrayList<Integer>();
+        linesToSelect.add(1);
+        linesToSelect.add(2);
+        linesToSelect.add(3);
+        linesToSelect.add(4);
+        linesToSelect.add(5);
+        linesToSelect.add(6);
+        DataFrame df = dfToTest.selectFromLine(linesToSelect);
     }
 
 
@@ -397,22 +442,24 @@ public class DataFrameTest {
 
     @Test
     public void testPrintAll() throws ExceptionOutOfRange {
-        Assert.assertEquals("\tIndex\tNote\tMot\t\n" +
-                "0\t-1\t1.0\tVictor\t\n" +
-                "1\t0\t2.5\tMaxime\t\n" +
-                "2\t1\t0.0\tMalotru\t\n" +
-                "3\t2\t0.4\tVaccination\t\n"+
-                "4\t3\t0.0\tAbeille\t\n" +
-                "5\t8\t0.1\tZébulon!\t\n",
+        Assert.assertEquals("\t\t\tIndex\t\t\tNote\t\t\tMot\t\t\t\n" +
+                "0\t\t\t-1\t\t\t1.0\t\t\tVictor\t\t\t\n" +
+                "1\t\t\t0\t\t\t2.5\t\t\tMaxime\t\t\t\n" +
+                "2\t\t\t1\t\t\t0.0\t\t\tMalotru\t\t\t\n" +
+                "3\t\t\t2\t\t\t0.4\t\t\tVaccination\t\t\t\n"+
+                "4\t\t\t3\t\t\t0.0\t\t\tAbeille\t\t\t\n" +
+                "5\t\t\t8\t\t\t0.1\t\t\tZébulon!\t\t\t\n",
                 dfToTest.printAll());
     }
 
     @Test
     public void testPrintFirstLine() throws ExceptionOutOfRange {
-        DataFrame dfFirstLine = dfToTest.selectFromLine(0,0);
+        ArrayList<Integer> lineToSelect = new ArrayList<Integer>();
+        lineToSelect.add(0);
+        DataFrame dfFirstLine = dfToTest.selectFromLine(lineToSelect);
 
-        Assert.assertEquals("\tIndex\tNote\tMot\t\n" +
-                "0\t-1\t1.0\tVictor\t\n",
+        Assert.assertEquals("\t\t\tIndex\t\t\tNote\t\t\tMot\t\t\t\n" +
+                "0\t\t\t-1\t\t\t1.0\t\t\tVictor\t\t\t\n",
                 dfFirstLine.printAll());
 
     }

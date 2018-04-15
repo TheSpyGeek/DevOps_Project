@@ -64,9 +64,9 @@ public class DataFrameGrouped {
 
 
     public String printColGrouped(){
-        String colGrouped = "\t";
+        String colGrouped = "";
         for(int i = 0; i<colGroupedName.size(); i++){
-            colGrouped += colGroupedName.get(i)+"\t";
+            colGrouped += colGroupedName.get(i)+"\t\t\t";
         }
         return colGrouped;
     }
@@ -74,9 +74,8 @@ public class DataFrameGrouped {
     public String printValuesGrouped(ArrayList<? extends Comparable> values){
         String valuesGrouped = "";
         for(int i = 0; i<nbLine; i++){
-            valuesGrouped += "\t";
             for(int j = 0; j<colGroupedName.size(); j++){
-                valuesGrouped += setOfCol.get(colGroupedName.get(j)).printGrouped(i)+"\t";
+                valuesGrouped += setOfCol.get(colGroupedName.get(j)).printGrouped(i)+"\t\t\t";
             }
             valuesGrouped += values.get(i) + "\n";
         }
