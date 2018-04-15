@@ -302,7 +302,7 @@ public class DataFrameTest {
 
         assertEquals("Doit être égal à 6 pour la colonne Index",6, dfToTestCsv.getCount("Index"));
         assertEquals("Doit être égal à 6 pour la colonne Nom",6, dfToTestCsv.getCount("Nom"));
-        assertEquals("Doit être égal à 6 pour la colonne Prénom",6, dfToTestCsv.getCount("Prénom"));
+        assertEquals("Doit être égal à 6 pour la colonne Prenom",6, dfToTestCsv.getCount("Prenom"));
         assertEquals("Doit être égal à 6 pour la colonne Age",6, dfToTestCsv.getCount("Age"));
         assertEquals("Doit être égal à 6 pour la colonne Note",6, dfToTestCsv.getCount("Note"));
         assertEquals("Doit être égal à 6 pour la colonne HASH",6, dfToTestCsv.getCount("HASH"));
@@ -329,7 +329,7 @@ public class DataFrameTest {
 
     @Test(expected= ExceptionNoSuchColumn.class)
     public void testAvgStringCsv() throws ExceptionString, ExceptionNoSuchColumn {
-        dfToTestCsv.getAvg("Prénom");
+        dfToTestCsv.getAvg("Prenom");
     }
 
     @Test
@@ -355,12 +355,12 @@ public class DataFrameTest {
 
     @Test(expected = ExceptionNoSuchColumn.class)
     public void testMinExceptionString() throws ExceptionNoSuchColumn {
-        assertEquals("Minimum de la colonne Prénom","1", dfToTestCsv.getMin("Prénom"));
+        assertEquals("Minimum de la colonne Prenom","1", dfToTestCsv.getMin("Prenom"));
     }
 
     @Test(expected = ExceptionNoSuchColumn.class)
     public void testMaxExceptionString() throws ExceptionNoSuchColumn {
-        assertEquals("Maximum de la colonne Prénom","Papin", dfToTestCsv.getMax("Prénom"));
+        assertEquals("Maximum de la colonne Prenom","Papin", dfToTestCsv.getMax("Prenom"));
     }
 
     @Test
