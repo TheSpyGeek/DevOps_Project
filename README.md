@@ -44,3 +44,10 @@ Utilisation du site codecov.io nous permettant d'avoir un suivi en ligne de nos 
 De plus, l'utilisation d'un site externe nous a aussi permis de bénéficier du badge de couverture de code pour github (non négligeable :-) )
 
 
+## Docker
+
+Pour lancer la librairie avec docker il faut lancer cette commande:
+
+sudo docker run --mount type=bind,source=FileTest,target=/DevOps_Project/ressources javapanda
+
+FileTest est un dossier contenant un fichier "file.csv" sur lequel des stats vont être faites
