@@ -151,11 +151,6 @@ public class DataFrame {
             System.out.print(setOfCol.get(i.next()).getLabel()+"\t");
         }
         System.out.println();
-        if(end==-1){
-            begin = 0;
-            end = setOfCol.get(setOfCol.keySet().iterator().next()).getSize()-1;
-        }
-
 
         if(end>=begin){
             while(begin<=end){
