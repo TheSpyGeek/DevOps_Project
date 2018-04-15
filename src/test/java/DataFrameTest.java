@@ -3,7 +3,11 @@ import org.junit.Test;
 
 import static junit.framework.TestCase.assertEquals;
 import static org.junit.Assert.*;
+
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
+
 import myExceptions.*;
 import dataframe.*;
 
@@ -15,7 +19,7 @@ public class DataFrameTest {
     DataFrame dfToTestCsv;
 
     @Before
-    public void init(){
+    public void init() throws IOException, ExceptionNotSameSize {
         dfToTestCsv = new DataFrame("src/test/ressources/csv1.csv");
         col = new ArrayList<ArrayList<? extends Comparable>>();
         labels = new ArrayList<String>();
@@ -68,13 +72,6 @@ public class DataFrameTest {
 
     }
 
-    @Test(expected= ExceptionNoSuchColumn.class)
-    public void testColonneExist() throws ExceptionNoSuchColumn, ExceptionString {
-
-        dfToTest.getAvg("DontExists");
-    }
-
-    //INTEGER
     @Test
     public void testSum() throws ExceptionString, ExceptionNoSuchColumn {
         assertEquals("Somme de la colonne Index",13, dfToTest.getSum("Index"));
@@ -111,6 +108,46 @@ public class DataFrameTest {
         assertEquals("Maximum de la colonne Note",2.5, dfToTest.getMax("Note"));
     }
 
+
+
+
+
+
+
+
+
+
+    //Tests sur colonnes n'existant pas
+
+    @Test(expected= ExceptionNoSuchColumn.class)
+    public void testSizeNotExistColonne() throws ExceptionNoSuchColumn {
+        dfToTest.getCount("NotExist");
+
+    }
+
+    @Test(expected= ExceptionNoSuchColumn.class)
+    public void testAvgNotExistColonne() throws ExceptionNoSuchColumn, ExceptionString {
+
+        dfToTest.getAvg("DontExists");
+    }
+
+    @Test(expected= ExceptionNoSuchColumn.class)
+    public void testSumNotExistColonne() throws ExceptionString, ExceptionNoSuchColumn {
+        dfToTest.getSum("NotExist");
+    }
+
+    @Test(expected= ExceptionNoSuchColumn.class)
+    public void testMinNotExistColonne() throws ExceptionNoSuchColumn {
+        dfToTest.getMin("NotExist");
+    }
+
+    @Test(expected= ExceptionNoSuchColumn.class)
+    public void testMaxNotExistColonne() throws ExceptionNoSuchColumn {
+        dfToTest.getMax("NotExist");
+    }
+
+
+
     @Test(expected = ExceptionNotSameSize.class)
     public void testConstructor() throws ExceptionNotSameSize {
         ArrayList<Integer> firstCol = new ArrayList<Integer>();
@@ -136,47 +173,128 @@ public class DataFrameTest {
     }
 
     @Test
-    public void testSelectLabels() throws ExceptionNoSuchColumn {
-        System.out.println("\n\n ----TEST SELECT LABELS, AFFICHAGE DU DATAFRAME DE BASE---- \n");
-        dfToTest.printAll();
+    public void testSelectLabels() throws ExceptionNoSuchColumn, ExceptionNotSameSize {
+        ArrayList cloneTestSelectLabelsData = new ArrayList();
+        ArrayList<String> cloneTestSelectLabelsDataCol1 = new ArrayList<String>();
+        cloneTestSelectLabelsDataCol1.add("Victor");
+        cloneTestSelectLabelsDataCol1.add("Maxime");
+        cloneTestSelectLabelsDataCol1.add("Malotru");
+        cloneTestSelectLabelsDataCol1.add("Vaccination");
+        cloneTestSelectLabelsDataCol1.add("Abeille");
+        cloneTestSelectLabelsDataCol1.add("Zébulon!");
+        cloneTestSelectLabelsData.add(cloneTestSelectLabelsDataCol1);
+
 
         ArrayList<String> labels = new ArrayList<String>();
         labels.add("Mot");
-        DataFrame df = dfToTest.selectFromLabel(labels);
-        System.out.println("\n\n SELECTION DE MOT POUR REFAIRE UNE DATA FRAME PUIS AFFICHAGE: \n");
-        df.printAll();
 
+        DataFrame dfToCompare = new DataFrame(labels,cloneTestSelectLabelsData);
+        DataFrame dfSelect = dfToTest.selectFromLabel(labels);
+
+        assertTrue("Les dataframes doivent-être similaires (Selection Sur la colonne Mot)! ",
+                dfSelect.equals(dfToCompare));
 
         labels.add("Index");
-        DataFrame df2 = dfToTest.selectFromLabel(labels);
-        System.out.println("\n\n SELECTION DE MOT ET INDEX POUR REFAIRE UNE DATA FRAME PUIS AFFICHAGE: \n");
-        df2.printAll();
+
+        ArrayList<Integer> cloneTestSelectLabelsDataCol2 = new ArrayList<Integer>();
+        cloneTestSelectLabelsDataCol2.add(-1);
+        cloneTestSelectLabelsDataCol2.add(0);
+        cloneTestSelectLabelsDataCol2.add(1);
+        cloneTestSelectLabelsDataCol2.add(2);
+        cloneTestSelectLabelsDataCol2.add(3);
+        cloneTestSelectLabelsDataCol2.add(8);
+        cloneTestSelectLabelsData.add(cloneTestSelectLabelsDataCol2);
+
+        dfSelect = dfToTest.selectFromLabel(labels);
+
+        dfToCompare = new DataFrame(labels,cloneTestSelectLabelsData);
+
+        assertTrue("Les dataframes doivent-être similaires (Selection Sur la colonne Mot et Index)! ",
+                dfSelect.equals(dfToCompare));
+    }
+
+
+
+    @Test(expected = ExceptionNoSuchColumn.class)
+    public void testSelectLabelsNotExist() throws ExceptionNoSuchColumn {
+        ArrayList labels = new ArrayList();
+        labels.add("NOT EXISTS");
+        DataFrame dfSelect = dfToTest.selectFromLabel(labels);
+    }
+
+    /**
+     * Compare deux dataframes inégaux.
+     */
+    @Test
+    public void testEqualsDataFrame(){
+        assertFalse("Les dataframes sont inégaux!",dfToTest.equals(dfToTestCsv));
     }
 
     @Test
-    public void testSelectLines() throws ExceptionNoSuchColumn, ExceptionColBadIndex {
-        System.out.println("\n\n ---- TEST SELECT LINES, AFFICHAGE DU DATAFRAME DE BASE. -----\n");
-        dfToTest.printAll();
+    public void testSelectLinesCompare1() throws IOException, ExceptionNotSameSize, ExceptionOutOfRange {
+        DataFrame dfCsvFail = new DataFrame("src/test/ressources/csv2.csv");
 
-        DataFrame df = dfToTest.selectFromLine(0,0);
-        System.out.println("\n\n SELECTION DE LA PREMIERE LIGNE POUR REFAIRE UNE DATA FRAME PUIS AFFICHAGE: \n");
-        df.printAll();
+        DataFrame dfCsvFailSelect = dfCsvFail.selectFromLine(1,1);
 
-        DataFrame df2 = dfToTest.selectFromLine(1,5);
-        System.out.println("\n\n SELECTION DE LA DEUXIEME LIGNE A LA FIN POUR REFAIRE UNE DATA FRAME PUIS AFFICHAGE: \n");
-        df2.printAll();
+        DataFrame dfSelect = dfToTest.selectFromLine(1,1);
+
+        assertFalse("Ces lignes ne sont pas égales en type!",dfCsvFailSelect.equals(dfSelect));
+    }
+
+    @Test
+    public void testSelectLinesCompare2() throws IOException, ExceptionNotSameSize, ExceptionOutOfRange {
+        DataFrame dfCsvFail = new DataFrame("src/test/ressources/csv3.csv");
+
+        DataFrame dfCsvFailSelect = dfCsvFail.selectFromLine(1,1);
+
+        DataFrame dfSelect = dfToTest.selectFromLine(1,1);
+
+        assertTrue("Ces lignes sont égales!",dfCsvFailSelect.equals(dfSelect));
+    }
+
+    @Test(expected = IOException.class)
+    public void createDfFromInexistantFile() throws IOException, ExceptionNotSameSize {
+        DataFrame dataFrame = new DataFrame("FAIL");
+    }
+
+
+
+
+    @Test(expected = ExceptionOutOfRange.class)
+    public void testPrintOutOfRange1() throws ExceptionOutOfRange {
+        dfToTest.print(4,0);
+    }
+
+    @Test(expected = ExceptionOutOfRange.class)
+    public void testPrintOutOfRange2() throws ExceptionOutOfRange {
+        dfToTest.print(-1,12);
+    }
+
+    @Test(expected = ExceptionOutOfRange.class)
+    public void testPrintOutOfRange3() throws ExceptionOutOfRange {
+        dfToTest.print(0,12);
+    }
+
+
+    @Test(expected = ExceptionOutOfRange.class)
+    public void testSelectLinesOutOfRange1() throws ExceptionOutOfRange {
+        DataFrame df = dfToTest.selectFromLine(4,0);
+    }
+
+    @Test(expected = ExceptionOutOfRange.class)
+    public void testSelectLinesOutOfRange2() throws ExceptionOutOfRange {
+        DataFrame df = dfToTest.selectFromLine(-1,12);
+    }
+
+    @Test(expected = ExceptionOutOfRange.class)
+    public void testSelectLinesOutOfRange3() throws ExceptionOutOfRange {
+        DataFrame df = dfToTest.selectFromLine(0,12);
     }
 
 
 
 
     //////CSV PART//////
-
-    @Test
-    public void testPrintCsv(){
-        System.out.println("\n\nTEST AFFICHAGE CSV scv1.csv\n \n");
-        dfToTestCsv.printAll();
-    }
 
     @Test
     public void testSizeCsv() throws ExceptionNoSuchColumn {
@@ -241,10 +359,22 @@ public class DataFrameTest {
     }
 
     @Test
-    public void testConstructCSV() throws ExceptionNoSuchColumn {
+    public void testConstructCSV() throws ExceptionNoSuchColumn, IOException, ExceptionNotSameSize {
 
         DataFrame dt = new DataFrame("src/test/ressources/csv1.csv");
         assertEquals(5.0, dt.getMax("Note"));
+    }
 
+    @Test(expected = IOException.class)
+    public void testConstructCSVNotExist() throws IOException, ExceptionNotSameSize {
+
+        DataFrame dt = new DataFrame("src/test/ressources/csvnotexist.csv");
+    }
+
+    @Test(expected = ExceptionNotSameSize.class)
+    public void testCSVWithEmptyFields() throws IOException, ExceptionNotSameSize
+    {
+
+        DataFrame dt = new DataFrame("src/test/ressources/csv4.csv");
     }
 }

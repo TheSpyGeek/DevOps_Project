@@ -74,7 +74,7 @@ public class DataColTest {
     }
 
     @Test
-    public void testSelectLine() throws ExceptionColBadIndex {
+    public void testSelectLine() throws ExceptionOutOfRange {
         ArrayList<String> data = new ArrayList<String>();
         data.add("Victor");
         data.add("Maxime");
@@ -89,8 +89,8 @@ public class DataColTest {
         assertEquals("Prenom", newDatacol.getLabel());
     }
 
-    @Test(expected = ExceptionColBadIndex.class)
-    public void testSelectLineNegativeIndex() throws ExceptionColBadIndex {
+    @Test(expected = ExceptionOutOfRange.class)
+    public void testSelectLineNegativeIndex() throws ExceptionOutOfRange {
         ArrayList<String> data = new ArrayList<String>();
         data.add("Victor");
         data.add("Maxime");
@@ -103,8 +103,8 @@ public class DataColTest {
 
     }
 
-    @Test(expected = ExceptionColBadIndex.class)
-    public void testSelectLineInversedIndex() throws ExceptionColBadIndex {
+    @Test(expected = ExceptionOutOfRange.class)
+    public void testSelectLineInversedIndex() throws ExceptionOutOfRange {
         ArrayList<String> data = new ArrayList<String>();
         data.add("Victor");
         data.add("Maxime");
@@ -116,8 +116,8 @@ public class DataColTest {
 
     }
 
-    @Test(expected = ExceptionColBadIndex.class)
-    public void testSelectLineOutOfBoundIndex() throws ExceptionColBadIndex {
+    @Test(expected = ExceptionOutOfRange.class)
+    public void testSelectLineOutOfBoundIndex() throws ExceptionOutOfRange {
         ArrayList<String> data = new ArrayList<String>();
         data.add("Victor");
         data.add("Maxime");
@@ -130,8 +130,8 @@ public class DataColTest {
 
     }
 
-    @Test(expected = ExceptionColBadIndex.class)
-    public void testSelectLineOutOfBoundIndex2() throws ExceptionColBadIndex {
+    @Test(expected = ExceptionOutOfRange.class)
+    public void testSelectLineOutOfBoundIndex2() throws ExceptionOutOfRange {
         ArrayList<String> data = new ArrayList<String>();
         data.add("Victor");
         data.add("Maxime");

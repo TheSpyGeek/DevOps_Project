@@ -1,6 +1,6 @@
 package dataframe;
 
-import myExceptions.ExceptionColBadIndex;
+import myExceptions.ExceptionOutOfRange;
 import myExceptions.ExceptionString;
 
 import java.util.ArrayList;
@@ -10,7 +10,7 @@ import java.util.Iterator;
 
 /**
  * DataCol représente les colonnes de notre DataFrame.
- *
+ *  Test z
  * CETTE CLASSE N'EST ACCESSIBLE QUE DEPUIS LA CLASSE DATAFRAME
  */
 public class DataCol
@@ -30,7 +30,7 @@ public class DataCol
      * Affiche l'élément demandé à l'index indiqué.
      * @param i index de l'élément à afficher.
      */
-    public void print(int i){
+    public void print(int i) {
         System.out.print(data.get(i).toString()+"\t");
     }
 
@@ -52,10 +52,10 @@ public class DataCol
      *
      * @return une nouvelle colonne avec les lignes demandées.
      */
-    public DataCol selectByLine(int begin, int end) throws ExceptionColBadIndex {
+    public DataCol selectByLine(int begin, int end) throws ExceptionOutOfRange {
 
         if(begin < 0 || end < 0 || end < begin || end >= getSize()){
-            throw new ExceptionColBadIndex();
+            throw new ExceptionOutOfRange();
         }
 
         ArrayList<Comparable> newCol = new ArrayList<Comparable>();
@@ -109,7 +109,7 @@ public class DataCol
      */
     public Comparable getAvg() throws ExceptionString {
         if(data.get(0) instanceof Double)
-            return (Double)((Double)getSum()/data.size());
+            return ((Double)getSum()/data.size());
         else if(data.get(0) instanceof Integer)
             return (Integer)getSum()/data.size();
         else
@@ -137,5 +137,21 @@ public class DataCol
             count++;
         }
         return new DataColGrouped(newCell);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if(o instanceof DataCol){
+            DataCol dc = (DataCol)o;
+            if(dc.getData().size()==data.size()){
+                for(int i = 0; i<data.size(); i++){
+                    if(data.get(i).equals(dc.getData().get(i))==false){
+                        return false;
+                    }
+                }
+                return true;
+            }
+        }
+        return false;
     }
 }

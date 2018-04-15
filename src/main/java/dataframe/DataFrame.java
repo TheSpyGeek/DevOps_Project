@@ -1,9 +1,6 @@
 package dataframe;
 
-import myExceptions.ExceptionColBadIndex;
-import myExceptions.ExceptionNoSuchColumn;
-import myExceptions.ExceptionNotSameSize;
-import myExceptions.ExceptionString;
+import myExceptions.*;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -15,6 +12,7 @@ public class DataFrame {
 
     //Une dataframe est un ensemble de DataCol.
     LinkedHashMap<String, DataCol> setOfCol;
+    private int nbLine;
 
     /**
      * Construction d'un objet Dataframe à partir d'un ensemble de colonnes.
@@ -24,7 +22,7 @@ public class DataFrame {
     public DataFrame(ArrayList<String> labels, ArrayList<ArrayList<? extends Comparable>> cols) throws ExceptionNotSameSize{
         setOfCol = new LinkedHashMap<String, DataCol>();
         if(labels.size()!=cols.size())
-            System.out.println("Warning, plus de labels que de colonnes.");
+            throw new ExceptionNotSameSize();
 
         int s = cols.get(0).size();
         for(int i = 1; i < cols.size(); i++){
@@ -40,20 +38,10 @@ public class DataFrame {
     }
 
     /**
-     * Wrappeurr du constructeur DataFrame simplifié pour les tests.
-     * @param cols liste de colonnes.
-     * @param labelsSimplify liste des labels respectifs des cols mais simplifié dans le constructeur pour les tests
-     *                       Possibilité d'appeler en mettant {label1, label2, ...}
-     */
-    public DataFrame(String[] labelsSimplify, ArrayList<ArrayList<? extends Comparable>> cols) throws ExceptionNotSameSize{
-        new DataFrame(new ArrayList<String>(Arrays.asList(labelsSimplify)), cols);
-    }
-
-    /**
      * Construction d'un objet Dataframe à partir d'un fichier csv.
      * @param csvPath Chemin du fichier csv à parser.
      */
-    public DataFrame(String csvPath){
+    public DataFrame(String csvPath) throws IOException, ExceptionNotSameSize {
         setOfCol = new LinkedHashMap<String, DataCol>();
         String line = "";
         String separator = ",";
@@ -64,20 +52,15 @@ public class DataFrame {
         try  {
             BufferedReader br = new BufferedReader(new FileReader(csvPath));
             while ((line = br.readLine()) != null) {
-
                 String[] lineContent = line.split(separator);
-
                 for (int i=0; i<lineContent.length; i++){
-
                     //On part du principe que le premier élément de la colonne contient le label
                     if(firstPass){
                         labels.add(lineContent[i]);
                         datas.add(new ArrayList<String>());
                         types.add(0);
                     }else{//Puis on insert dans les bonnes colonnes.
-                        if(lineContent[i].equals("")){//Si la case est vide on met 0 à la place
-                            datas.get(i).set(i,"0");
-                        }else{//On détermine les types et on remplit les données sous forme de string pour l'instant pour chaque colonne
+                        if(labels.size()==lineContent.length){
                             datas.get(i).add(lineContent[i]);
 
                             if(parseInteger(lineContent[i])!=null){
@@ -89,6 +72,8 @@ public class DataFrame {
                             else{
                                 types.set(i,3);
                             }
+                        }else{
+                            throw new ExceptionNotSameSize();
                         }
                     }
                 }
@@ -119,7 +104,7 @@ public class DataFrame {
             }
 
         } catch (IOException e) {
-            System.out.println("Erreur lors de l'ouverture du fichier.");
+            throw new IOException();
         }
     }
 
@@ -159,36 +144,33 @@ public class DataFrame {
      * @param begin Indique à partir de quelle ligne afficher.
      * @param end   Indique quand arrêter l'affichage. Si end = -1, alors tout afficher.
      */
-    public void print(int begin, int end){
-        System.out.print("\t");
-        Iterator i = setOfCol.keySet().iterator();
-        while (i.hasNext()){
-            System.out.print(setOfCol.get(i.next()).getLabel()+"\t");
-        }
-        System.out.println();
-        if(end==-1){
-            begin = 0;
-            end = setOfCol.get(setOfCol.keySet().iterator().next()).getSize()-1;
-        }
-
-
-        if(end>=begin){
-            while(begin<=end){
-                System.out.print(begin+"\t");
-                i = setOfCol.keySet().iterator();
-                while (i.hasNext()){
-                    setOfCol.get(i.next()).print(begin);
-                }
-                System.out.println();
-                begin++;
+    public void print(int begin, int end) throws ExceptionOutOfRange {
+        if(end>=begin&&begin>=0&&end<(setOfCol.get(setOfCol.keySet().iterator().next()).getSize())&&end>=0)
+        {
+            System.out.print("\t");
+            Iterator i = setOfCol.keySet().iterator();
+            while (i.hasNext()){
+                System.out.print(setOfCol.get(i.next()).getLabel()+"\t");
             }
+            System.out.println();
+
+
+                while(begin<=end ){
+                    System.out.print(begin+"\t");
+                    i = setOfCol.keySet().iterator();
+                    while (i.hasNext()){
+                        setOfCol.get(i.next()).print(begin);
+                    }
+                    System.out.println();
+                    begin++;
+                }
         }else{
-            System.out.println("Out of range for printing!");
+            throw new ExceptionOutOfRange();
         }
     }
 
-    public void printAll(){
-        print(0,  (setOfCol.get(setOfCol.keySet().iterator().next()).getSize()-1));
+    public void printAll() throws ExceptionOutOfRange {
+        print(0,  (setOfCol.get(setOfCol.keySet().iterator().next()).getSize())-1);
     }
 
     /**
@@ -197,7 +179,7 @@ public class DataFrame {
      * @param end Borne supérieure
      * @return Le sous-ensemble du DataFrame sélectionné via les lignes
      */
-    public DataFrame selectFromLine(int begin, int end) throws ExceptionColBadIndex {
+    public DataFrame selectFromLine(int begin, int end) throws ExceptionOutOfRange {
         LinkedHashMap<String, DataCol> newSetOfCol = new LinkedHashMap<String, DataCol>();
 
         Iterator i = setOfCol.keySet().iterator();
@@ -271,16 +253,13 @@ public class DataFrame {
     public DataFrameGrouped groupBy(ArrayList<String> colToGroup) throws ExceptionNoSuchColumn {
         HashMap<String, ArrayList<Integer>> lineToFusion = new HashMap<String, ArrayList<Integer>>();
 
-        /*if(!setOfCol.keySet().contains(colToGroup.get(0))){
-            throw new ExceptionNoSuchColumn();
-        }*/
-
 
         Iterator i = setOfCol.keySet().iterator();
         ArrayList<String> labels = new ArrayList<String>();
         while(i.hasNext()){
             labels.add((String) i.next());
         }
+
         //Nos données groupés
         ArrayList<DataColGrouped> colGrouped = new ArrayList<DataColGrouped>();
 
@@ -303,13 +282,30 @@ public class DataFrame {
         }
 
         //lineToFusion contient alors toutes les lignes que l'on doit fusionner
-
         i = setOfCol.keySet().iterator();
         while(i.hasNext()){
-            colGrouped.add(setOfCol.get(i.next()).group(lineToFusion));
+                colGrouped.add(setOfCol.get(i.next()).group(lineToFusion));
         }
 
         return new DataFrameGrouped(labels,colToGroup,colGrouped);
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if(o instanceof DataFrame){
+            DataFrame dfComp = (DataFrame)o;
+            if(dfComp.setOfCol.size()==setOfCol.size()){
+                Iterator i = setOfCol.keySet().iterator();
+                while(i.hasNext()){
+                    String s = (String) i.next();
+                    boolean eq=setOfCol.get(s).equals(dfComp.setOfCol.get(s));
+                    if(eq==false){
+                        return false;
+                    }
+                }
+                return true;
+            }
+        }
+        return false;
+    }
 }
