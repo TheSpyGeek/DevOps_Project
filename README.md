@@ -46,9 +46,9 @@ De plus, l'utilisation d'un site externe nous a aussi permis de bénéficier du 
 
 ## Docker
 
-#####Assurez vous de disposer de la dernière version de dockers -> https://docs.docker.com/install/
+##### Assurez vous de disposer de la dernière version de dockers -> https://docs.docker.com/install/
 
-sudo docker run --mount type=bind,source=FileTest,target=/DevOps_Project/ressources thespygeek/javapanda
+sudo docker run --mount type=bind,source="$(pwd)"/FileTest,target=/AppJavaPanda/ressources thespygeek/javapanda
 
 Où FileTest est un dossier (chemin absolu) contenant un fichier "file.csv" sur lequel des stats vont être faites
 
