@@ -2,6 +2,9 @@
 
 ### Réalisé par Maxime Isnel et Victor Baverel
 
+## Application
+
+Ce dépot n'est que le dépot la librairie Java Panda, cependant nous avons aussi créer une application qui permet d'executer les méthodes de cette librairie. Cette application ce trouve dans le dépot https://github.com/TheSpyGeek/AppJavaPanda
 
 ## Implémentation
 
