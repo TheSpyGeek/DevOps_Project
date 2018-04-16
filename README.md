@@ -52,15 +52,7 @@ sudo docker run --mount type=bind,source=FileTest,target=/DevOps_Project/ressour
 
 Où FileTest est un dossier (chemin absolu) contenant un fichier "file.csv" sur lequel des stats vont être faites
 
-Voici à quoi peut ressembler "file.csv"
-
-Nom,Prenom,Score
-Spartan,117,350
-Clair,Obscur,2000
-Oxy,Mort,5
-Spartan,117,700
-Clair,Obscur,1450
-Clair,Obscur,908,
+Vous trouverez un exemple de ce à quoi peut ressembler "file.csv" dans le dossier FileTest/ au même niveau que src/
 
 Enfin, notez que nous tentons aussi d'effectuer des opérations de Group By sur le fichier, ces opérations ne provoqueront
 pas d'erreur dans le cas où l'utilisateur n'a pas réaliser son fichier csv en conséquence.
