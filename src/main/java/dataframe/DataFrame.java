@@ -211,6 +211,12 @@ public class DataFrame {
         return new DataFrame(newSetOfCol);
     }
 
+    /**
+     * Permet de retourner la valeur maximale de la colonne
+     * @param label colonne concernée
+     * @return
+     * @throws ExceptionNoSuchColumn si la colonne n'est pas dans le dataframe
+     */
     public Comparable getMax(String label) throws ExceptionNoSuchColumn {
         if(setOfCol.containsKey(label)){
             return setOfCol.get(label).getMax();
@@ -219,6 +225,13 @@ public class DataFrame {
         }
     }
 
+
+    /**
+     * Permet de retourner la valeur minimale de la colonne
+     * @param label colonne concernée
+     * @return
+     * @throws ExceptionNoSuchColumn si la colonne n'est pas dans le dataframe
+     */
     public Comparable getMin(String label) throws ExceptionNoSuchColumn {
         if(setOfCol.containsKey(label)){
             return setOfCol.get(label).getMin();
@@ -227,6 +240,13 @@ public class DataFrame {
         }
     }
 
+    /**
+     * Permet de retourner la somme de la colonne
+     * @param label colonne concernée
+     * @return
+     * @throws ExceptionNoSuchColumn si la colonne n'est pas dans le dataframe
+     * @throws ExceptionString si la colonne est de type String
+     */
     public Comparable getSum(String label) throws ExceptionString, ExceptionNoSuchColumn {
         if(setOfCol.containsKey(label)){
             return setOfCol.get(label).getSum();
@@ -235,6 +255,13 @@ public class DataFrame {
         }
     }
 
+    /**
+     * Permet de retourner la valeur moyenne de la colonne
+     * @param label colonne concernée
+     * @return
+     * @throws ExceptionNoSuchColumn si la colonne n'est pas dans le dataframe
+     * @throws ExceptionString si la colonne est de type String
+     */
     public Comparable getAvg(String label) throws ExceptionString, ExceptionNoSuchColumn {
         if(setOfCol.containsKey(label)){
             return setOfCol.get(label).getAvg();
@@ -243,6 +270,12 @@ public class DataFrame {
         }
     }
 
+    /**
+     * Permet de compter les valeurs d'une colonne
+     * @param label colonne concernée
+     * @return
+     * @throws ExceptionNoSuchColumn si la colonne n'est pas dans le dataframe
+     */
     public int getCount(String label) throws ExceptionNoSuchColumn {
         if(setOfCol.containsKey(label)){
             return setOfCol.get(label).getSize();
@@ -251,6 +284,12 @@ public class DataFrame {
         }
     }
 
+    /**
+     * Permet de générer un DataFrameGrouped résultant d'un group by sur ce dataframe
+     * @param colToGroup les colonnes concernées par le group by
+     * @return le DataFrameGrouped résultant
+     * @throws ExceptionNoSuchColumn si les colonnes n'existent pas
+     */
     public DataFrameGrouped groupBy(ArrayList<String> colToGroup) throws ExceptionNoSuchColumn {
         HashMap<String, ArrayList<Integer>> lineToFusion = new HashMap<String, ArrayList<Integer>>();
 
@@ -310,6 +349,9 @@ public class DataFrame {
         return false;
     }
 
+    /**
+     * @return la liste des colonnes
+     */
     public ArrayList<String> getLabel(){
         ArrayList<String> labels = new ArrayList<String>();
 
